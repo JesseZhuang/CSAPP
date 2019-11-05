@@ -34,4 +34,23 @@ Each process accesses its own private virtual address space (sometimes just call
 ## Concurrency
 
 ```shell
+$gcc -o threads.o threads.c -Wall [-pthread]
+$threads.o 10000
+Initial value : 0
+Final value   : 20000
+$ threads.o 100000
+Initial value : 0
+Final value   : 149839
 ```
+
+## Persistence
+
+```shell
+$gcc -o io.o io.c -Wall
+$io.o
+$less tempFile
+```
+
+These system calls (`open()`, `write()`, `close()`) are routed to the part of the operating sys- tem called the file system, which then handles the requests and returns some kind of error code to the user.
+
+For performance reasons, most file systems first delay such writes for a while, hoping to batch them into larger groups. To handle the problems of sys- tem crashes during writes, most file systems incorporate some kind of intricate write protocol, such as journaling or copy-on-write, carefully ordering writes to disk to ensure that if a failure occurs during the write sequence, the system can recover to reasonable state afterwards. To make different common operations efficient, file systems employ many differ- ent data structures and access methods, from simple lists to complex b- trees.
