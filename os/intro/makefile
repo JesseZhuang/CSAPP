@@ -1,9 +1,13 @@
-
+# A rule is in below format
 # target: prerequisites
+# <TAB> recipe
+
+# first target is default target
 all: cpu mem threads io
 
 clean:
-	rm -f cpu.o mem.o threads.o io.o
+	@echo "deleting executables"
+	@rm -f cpu.o mem.o threads.o io.o
 
 cpu: cpu.c common.h
 	gcc -o cpu.o cpu.c -Wall
