@@ -1,6 +1,8 @@
 ## Virtualizing cpu
 
 ```shell
+# note, can use make file
+$make
 $gcc -o cpu.o cpu.c -Wall
 $./cpu.o A &  ./cpu.o B &  ./cpu.o C
 $kill <progress_id> # to kill the above processes sent to background
