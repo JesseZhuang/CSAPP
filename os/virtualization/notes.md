@@ -15,3 +15,69 @@ The process’s machine state
 - Persistent storage devices. Such I/O information might include a list of the files the process currently has open.
 
 ## Process API
+
+- Create: any command
+- Destroy: `kill`
+- Wait: listener on a process to wait for stop signal
+- Miscellaneous control: suspend, resume
+- Status: how long, state
+
+## Process Creation
+
+1. Load code and any static data into memory from executable on disk. Modern OS does not lazily.
+1. Allocate stack. C programs use the stack for local variables, function parameters, and return addresses. The OS will also likely initialize the stack with arguments; specifically, it will fill in the parameters to the main() function, i.e., argc and the argv array.
+1. Allocate heap. In C programs, the heap is used for explicitly requested dynamically-allocated data; programs request such space by calling `malloc()` and free it explicitly by calling `free()`. The heap is needed for data structures such as linked lists, hash tables, trees, and other interesting data structures.
+1. Initialization tasks including IO. For example, in UNIX systems, each process by default has three open file descriptors, for standard input, output, and error.
+1. Start the program running at the entry point, namely `main()`. OS transfers control of the CPU to the newly-created process, and thus the program begins its execution.
+
+## Process States
+
+1. Running: executing.
+1. Ready: A process is ready to run but for some reason the OS has chosen not to run it at this given moment.
+1. Blocked: A process has performed some kind of operation that makes it not ready to run until some other event takes place.
+
+![process state transitions](process.state.transitions.png)
+
+Once a process has become blocked (e.g., by initiating an I/O operation), the OS will keep it as such until some event occurs (e.g., I/O completion); at that point, the process moves to the ready state again (and potentially immediately to running again, if the OS so decides).
+
+## Data Structures
+
+```C
+// the registers xv6 will save and restore to stop and subsequently restart a process
+struct context {
+  int eip;
+  int esp;
+  int ebx;
+  int ecx;
+  int edx;
+  int esi;
+  int edi;
+  int ebp;
+};
+
+// the different states a process can be in
+enum proc_state {
+    UNUSED, EMBRYO, SLEEPING,
+    RUNNABLE, RUNNING, ZOMBIE
+};
+
+// the information xv6 tracks about each process including its register context and state
+struct proc {
+    char *mem; // Start of process memory
+    uint sz; // Size of process memory
+    char *kstack; // Bottom of kernel stack
+    enum proc_state state;
+    int pid; // Process ID
+    struct proc *parent; // Parent process
+    void *chan; // If non-zero, sleeping on chan
+    int killed; // If non-zero, have been killed
+    struct file *ofile[NOFILE]; // Open files
+    struct inode *cwd; // Current directory
+    struct context context; // Switch here to run process
+    struct trapframe *tf; // Trap frame for the current interrupt
+};
+```
+
+This final (`ZOMBIE`) state can be useful as it allows other processes (usually the parent that created the process) to examine the return code of the process and see if the just-finished process executed successfully (usually, programs return zero in UNIX-based systems when they have accomplished a task successfully, and non-zero otherwise). When finished, the parent will make one final call (e.g., wait()) to wait for the completion of the child, and to also indicate to the OS that it can clean up any relevant data structures that referred to the now-extinct process.
+
+Sometimes people refer to the individual structure that stores information about a process as a Process Control Block (PCB), a fancy way of talking about a C structure that contains information about each process (process list).
