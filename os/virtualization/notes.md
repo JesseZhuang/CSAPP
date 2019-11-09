@@ -36,6 +36,36 @@ The odd part: the process that is created is an **almost** exact copy of the cal
 
 The order of execution for the parent and child processes is not deterministic and decided by the OS scheduler.
 
+### The `wait()` System Call
+
+```shell
+$ os/virtualization/cpu-api/p2.o
+hello world (pid:31520)
+hello, I am child (pid:31527)
+hello, I am parent of 31527 (wc:31527) (pid:31520)
+$
+```
+
+It can be very useful for the parent process can wait for the child with `wait()` or the more complete sibling `waitpid()`. The order is deterministic. If the parent does happen to run first, it will immediately call `wait()`; this system call won’t return until the child has run and exited.
+
+### The `exec()` System Call
+
+```shell
+$ os/virtualization/cpu-api/p3.o
+hello world (pid:37598)
+hello, I am child (pid:37599)
+wc: p3.c: open: No such file or directory
+hello, I am parent of 37599 (wc:37599) (pid:37598)
+$
+$ p3.o
+hello world (pid:37841)
+hello, I am child (pid:37842)
+      36     120     990 p3.c
+hello, I am parent of 37842 (wc:37842) (pid:37841)
+```
+
+The `fork()` system call is strange; its partner in crime, `exec()`, is not so normal either. What it does: given the name of an executable (e.g., `wc`), and some arguments (e.g., p3.c), it loads code (and static data) from that executable and overwrites its current code segment (and current static data) with it; the heap and stack and other parts of the memory space of the program are re-initialized. Then the OS simply runs that program, passing in any arguments as the argv of that process. Thus, it does not create a new process; rather, it transforms the currently running program (formerly p3) into a different running program (`wc`). After the `exec()` in the child, it is almost as if p3.c never ran; a successful call to `exec()` never returns.
+
 ## Process Creation
 
 1. Load code and any static data into memory from executable on disk. Modern OS does not lazily.
