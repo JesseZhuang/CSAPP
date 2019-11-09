@@ -22,6 +22,20 @@ The process’s machine state
 - Miscellaneous control: suspend, resume
 - Status: how long, state
 
+### The `fork()` System Call
+
+```shell
+$p1.o
+hello world (pid:79615)
+hello, I am parent of 79627 (pid:79615)
+hello, I am child (pid:79627)
+$
+```
+
+The odd part: the process that is created is an **almost** exact copy of the calling process. That means that to the OS, it now looks like there are two copies of the program p1 running, and both are about to return from the `fork()` system call. The newly-created process (called the child, in contrast to the creating parent) doesn’t start running at `main()`, like you might expect (note, the “hello, world” message only got printed out once); rather, it just comes into life as if it had called `fork()` itself. You might have noticed: the child isn’t an exact copy. Specifically, although it now has its own copy of the address space (i.e., its own private memory), its own registers, its own PC, and so forth, the value it returns to the caller of fork() is different. Specifically, while the parent receives the PID of the newly-created child, the child receives a return code of zero. This differentiation is useful, because it is simple then to write the code that handles the two different cases.
+
+The order of execution for the parent and child processes is not deterministic and decided by the OS scheduler.
+
 ## Process Creation
 
 1. Load code and any static data into memory from executable on disk. Modern OS does not lazily.
