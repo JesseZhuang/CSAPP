@@ -64,7 +64,25 @@ hello, I am child (pid:37842)
 hello, I am parent of 37842 (wc:37842) (pid:37841)
 ```
 
+```shell
+$ p4.o
+hostname:cpu-api zexiz$ ls
+makefile  p1.c      p1.o      p2.c      p2.o      p3.c      p3.o      p4.c      p4.o      p4.output
+$ cat p4.output
+      38     118     942 p4.c
+```
+
 The `fork()` system call is strange; its partner in crime, `exec()`, is not so normal either. What it does: given the name of an executable (e.g., `wc`), and some arguments (e.g., p3.c), it loads code (and static data) from that executable and overwrites its current code segment (and current static data) with it; the heap and stack and other parts of the memory space of the program are re-initialized. Then the OS simply runs that program, passing in any arguments as the argv of that process. Thus, it does not create a new process; rather, it transforms the currently running program (formerly p3) into a different running program (`wc`). After the `exec()` in the child, it is almost as if p3.c never ran; a successful call to `exec()` never returns.
+
+### Motivating the API
+
+The separation of `fork()` and `exec()` is essential in building a UNIX shell, because it lets the shell run code after the call to `fork()` but before the call to `exec()`; this code can alter the environment of the about-to-be-run program, and thus enables a variety of interesting features to be readily built.
+
+In most cases, the shell then figures out where in the file system the executable resides, calls `fork()` to create a new child process to run the command, calls some variant of `exec()` to run the command, and then waits for the command to complete by calling `wait()`. When the child completes, the shell returns from `wait()` and prints out a prompt again, ready for your next command.
+
+UNIX pipes are implemented in a similar way, but with the `pipe()` system call. In this case, the output of one process is connected to an in- kernel pipe (i.e., queue), and the input of another process is connected to that same pipe; thus, the output of one process seamlessly is used as input to the next, and long and useful chains of commands can be strung together.
+
+The `kill()` system call is used to send signals to a process, including directives to go to sleep, die, and other useful imperatives. In fact, the entire signals subsystem provides a rich infrastructure to deliver external events to processes, including ways to receive and process those signals.
 
 ## Process Creation
 
