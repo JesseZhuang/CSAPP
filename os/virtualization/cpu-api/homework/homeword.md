@@ -24,6 +24,14 @@ local:6
 2. Write a program that opens a file (with the open() system call) and then calls fork() to create a new process. Can both the child and parent access the file descriptor returned by open()? What happens when they are writing to the file concurrently, i.e., at the same time?
 
 ```shell
+$ h2w.o
+$ cat h2w.output
+child process write to file
+parent process write to file
+$ h2.o
+$ cat h2.output
+parent process write to file
+child process write to file
 ```
 
 3. Write another program using fork(). The child process should print “hello”; the parent process should print “goodbye”. You should try to ensure that the child process always prints first; can you do this without calling wait() in the parent?
