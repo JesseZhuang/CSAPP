@@ -26,9 +26,10 @@ int main(int argc, char *argv[])
     }
     else
     {
+        int wc = wait(NULL);
         // parent goes down this path (original process)
-        printf("hello, I am parent of %d (pid:%d)\n",
-               rc, (int)getpid());
+        printf("hello, I am parent of %d (wc:%d) (pid:%d)\n",
+               rc, wc, (int)getpid());
         global = 5;
         local = 6;
         printf("global:%d\n", global);
