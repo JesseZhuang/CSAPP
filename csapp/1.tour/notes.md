@@ -47,3 +47,19 @@ Using a technique known as direct memory access (DMA), the data travels directly
 Once the code and data in the hello object file are loaded into memory, the processor begins executing the machine-language instructions in the hello program’s main routine. These instructions copy the bytes in the “hello, world\n” string from memory to the register file, and from there to the display device, where they are displayed on the screen.
 
 ![print hello world](print.display.png)
+
+## Cache
+
+For example, the disk drive on a typical system might be 1000 times larger than the main memory, but it might take the processor 10,000,000 times longer to read a word from disk than from memory.  Even more troublesome, as semiconductor technology progresses over the years, this processor-memory gap continues to increase. It is easier and cheaper to make processors run faster than it is to make main memory run faster.
+
+The L1 and L2 caches are implemented with a hardware technology known as static random access memory (SRAM). Newer and more powerful systems even have three levels of cache: L1, L2, and L3. The idea behind caching is that a system can get the effect of both a very large memory and a very fast one by exploiting locality, the tendency for programs to access data and code in localized regions.
+
+||Size|Speed/Time Needed|
+|-|-|-|
+|Register|100 bytes|1|
+|L1 Cache|10k bytes|1.1|
+|L2 Cache|100k-1b bytes|5-10|
+|RAM|1 Gb|100|
+|Disk|1 Tb|1 billion|
+
+![Memory Hierarchy](memory.hierarchy.png)
