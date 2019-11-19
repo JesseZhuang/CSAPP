@@ -57,3 +57,12 @@ The value of a pointer in C—whether it points to an integer, a structure, or s
 ### Hexadecimal Notation
 
 For $x=2^n$, we write $n=i+4j$, where $0 \leq i \leq 3$, we write a leading hex digit of $1 (i = 0), 2 (i= 1), 4 (i=2), 8 (i=3)$, followed by $j$ hexadecimal $0$s. For example, for $x=2048=2^11$, $n=11=3 + 4\cdot2$, hex representaton is $800$.
+
+### Words
+
+For a machine with a w-bit word size, the virtual addresses can range from $0$ to $2^w − 1$, giving the program access to at most $2^w$ bytes.
+
+|word size|memory size|actual number|
+|-|-|-|
+|32 bit|4 Giga bytes|4,294,967,296|
+|64 bit|18 Eexa bytes|18,446,744,073,709,551,616|
