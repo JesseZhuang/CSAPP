@@ -65,4 +65,10 @@ For a machine with a w-bit word size, the virtual addresses can range from $0$ t
 |word size|memory size|actual number|
 |-|-|-|
 |32 bit|4 Giga bytes|4,294,967,296|
-|64 bit|18 Eexa bytes|18,446,744,073,709,551,616|
+|64 bit|18 Exa bytes|18,446,744,073,709,551,616|
+
+### Data Sizes
+
+![](c.data.type.size.png)
+
+### Addressing and Byte Odering
