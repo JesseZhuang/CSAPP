@@ -80,3 +80,45 @@ The former convention—where the least significant byte comes first—is referr
 ![](byte.ordering.png)
 
 A common problem is for data produced by a little-endian machine to be sent to a big-endian machine, or vice versa, leading to the bytes within the words being in reverse order for the receiving program. To avoid such problems, code written for networking applications must follow established conventions for byte ordering to make sure the sending machine converts its internal representation to the network standard, while the receiving machine converts the network standard to its internal representation.
+
+![](byte.representation.png)
+
+```bash
+$ show-bytes.o
+calling show_twocomp
+ 39 30
+ c7 cf
+Calling simple_show_a
+ 21
+ 21 43
+ 21 43 65
+Calling simple_show_b
+ 78
+ 78 56
+ 78 56 34
+Calling float_eg
+# 21 bits match, from . to .
+For x = 3490593
+ 21 43 35 00 # 0000 0000 001.1 0101 0100 0011 0010 0001.
+ 84 0c 55 4a #   0100 1010 0.101 0101 0000 1100 1000 01.00
+For x = 3510593
+ 41 91 35 00
+ 04 45 56 4a
+Calling string_ueg
+ 41 42 43 44 45 46
+Calling string_leg
+ 61 62 63 64 65 66
+ 31 32 33 34 35 00
+```
+
+## Character Encodings
+
+- An ASCII character in 8-bit ASCII encoding is 8 bits (1 byte), though it can fit in 7 bits.
+- An ISO-8895-1 (extended ASCII) character in ISO-8859-1 encoding is 8 bits (1 byte).
+- A Unicode character in UTF-8 encoding is between 8 bits (1 byte) and 32 bits (4 bytes).
+- A Unicode character in UTF-16 encoding is between 16 (2 bytes) and 32 bits (4 bytes), though most of the common characters take 16 bits. This is the encoding used by Windows internally (windows cp1252 uses 1 byte ).
+- A Unicode character in UTF-32 encoding is always 32 bits (4 bytes).
+- An ASCII character in UTF-8 is 8 bits (1 byte), and in UTF-16 - 16 bits. The additional (non-ASCII) characters in ISO-8895-1 (0xA0-0xFF) would take 16 bits in UTF-8 and UTF-16.
+- That would mean that there are between 0.03125 and 0.125 characters in a bit.
+
+The Java programming language uses Unicode in its representations of strings. Program libraries are also available for C to support Unicode.
