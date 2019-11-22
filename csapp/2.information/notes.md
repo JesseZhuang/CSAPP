@@ -111,6 +111,29 @@ Calling string_leg
  31 32 33 34 35 00
 ```
 
+### 2.1.5 Representing Strings
+
+### 2.1.6 Representign Code
+
+```C
+int sum(int x, int y) {
+    return x + y;
+}
+```
+
+|Machine|Compiled Code|
+|-|-|
+|Linux 32|55 89 e5 8b 45 0c 03 45 08 c9 c3|
+|Windows|55 89 e5 8b 45 0c 03 45 08 5d c3|
+|Sun|81 c3 e0 08 90 02 00 09|
+|Linux 64|55 48 89 e5 89 7d fc 89 75 f8 03 45 fc c9 c3|
+
+Different machine types use different and incompatible instructions and encodings. Even identical processors running different operating systems have differences in their coding conventions and hence are not binary compatible. Binary code is seldom portable across different combinations of machine and operating system.
+
+### 2.1.7 Boolean Algebra
+
+One useful application of bit vectors is to represent finite sets. We can encode any subset $A⊆\{0,1,...,w−1\}$ with a bit vector $[a_{w−1},...,a_1,a_0]$,where $a_i = 1$ if and only if $i ∈ A$. For example, recalling that we write $a_{w−1}$ on the left and $a_0$ on the right,bit vector `a = [01101001]` encodes the set `A = {0, 3, 5, 6}`, while bit vector `b = [01010101]` encodes the set `B = {0, 2, 4, 6}`. With this way of encoding sets, Boolean operations `|` and `&` correspond to set union and intersection, respectively, and `~` corresponds to set complement. Continuing our earlier example, the operation `a & b` yields bit vector `[01000001]`, while `A ∩ B` = `{0, 6}`.
+
 ## Character Encodings
 
 - An ASCII character in 8-bit ASCII encoding is 8 bits (1 byte), though it can fit in 7 bits.
