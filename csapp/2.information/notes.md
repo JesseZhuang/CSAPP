@@ -134,6 +134,26 @@ Different machine types use different and incompatible instructions and encoding
 
 One useful application of bit vectors is to represent finite sets. We can encode any subset $A⊆\{0,1,...,w−1\}$ with a bit vector $[a_{w−1},...,a_1,a_0]$,where $a_i = 1$ if and only if $i ∈ A$. For example, recalling that we write $a_{w−1}$ on the left and $a_0$ on the right,bit vector `a = [01101001]` encodes the set `A = {0, 3, 5, 6}`, while bit vector `b = [01010101]` encodes the set `B = {0, 2, 4, 6}`. With this way of encoding sets, Boolean operations `|` and `&` correspond to set union and intersection, respectively, and `~` corresponds to set complement. Continuing our earlier example, the operation `a & b` yields bit vector `[01000001]`, while `A ∩ B` = `{0, 6}`.
 
+### 2.1.8 Bit-Level Operation in C
+
+One common use of bit-level operations is to implement masking operations. For example, with `x = 0x89ABCDEF`, `x & 0xFF` would yield `0x000000EF`. The expression ~0 will yield a mask of all ones, regardless of the word size of the machine. Although the same mask can be written `0xFFFFFFFF` for a 32-bit machine, such code is not as portable.
+
+Practice Problem 2.12
+
+Write C expressions, in terms of variable x, for the following values. Your code should work for any word size w ≥ 8. For reference, we show the result of evaluating the expressions for `x = 0x87654321`, with w = 32.
+
+A. The least significant byte of x, with all other bits set to 0. [0x00000021].
+
+Answer: `x & 0xFF`
+
+B. All but the least significant byte of x complemented, with the least significant byte left unchanged. [0x789ABC21].
+
+Answer: `x ^ ~ 0xFF`, me `~ x & 0xFF`
+
+C. The least significant byte set to all 1s, and all other bytes of x left unchanged. [0x876543FF].
+
+Answer: `x | 0xFF`
+
 ## Character Encodings
 
 - An ASCII character in 8-bit ASCII encoding is 8 bits (1 byte), though it can fit in 7 bits.
