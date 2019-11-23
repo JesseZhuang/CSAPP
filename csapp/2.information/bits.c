@@ -43,6 +43,49 @@ int bool_xor(int x, int y)
 {
     return bit_set(bit_clear(x, y), bit_clear(y, x));
 }
+/* Return 1 when x ==y 0 otherwise with bit operation. */
+int bool_and(int x, int y)
+{
+    return !(x^y);
+}
+
+void show_bytes(unsigned char *start, size_t len)
+{
+    size_t i;
+    for (i = 0; i < len; i++)
+        // %.2x hex at least two digits
+        printf(" %.2x", start[i]); //line:data:show_bytes_printf
+    printf("\n");
+}
+
+void show_int(int x)
+{
+    show_bytes((unsigned char *)&x, sizeof(int));
+}
+
+void shiftGreaterThanWordSize()
+{
+    // bits.c:68:28: warning: shift count >= width of type [-Wshift-count-overflow]
+    int val = 0xFEDCBA98;
+    int lval = (val  << 32);
+    int aval = (val  >> 36);
+    unsigned uval = (val >> 40);
+    show_int(val);
+    printf("0xFEDCBA98 << 32 == ");
+    show_int(lval);
+    printf("0xFEDCBA98 >> 36 == ");
+    show_int(aval);
+    printf("0xFEDCBA98u >> 40 == ");
+    show_int(uval);
+    // on mac, without parenthesis
+    // 0xFEDCBA98 << 32 ==  05 00 00 00
+    // 0xFEDCBA98 >> 36 ==  05 00 00 00
+    // 0xFEDCBA98u >> 40 ==  05 00 00 00
+    // on mac with parenthesis
+    // 0xFEDCBA98 << 32 ==  98 ba dc fe
+    // 0xFEDCBA98 >> 36 ==  a9 cb ed ff
+    // 0xFEDCBA98u >> 40 ==  ba dc fe ff
+}
 
 int main()
 {
@@ -51,5 +94,8 @@ int main()
     for (i = 0; i < 5; i++) x[i] = i + 1;
     reverse_array(x, 5);
     for (i = 0; i < 5; i++) printf("x[%d]=%d\n", i, x[i]);
+
+    shiftGreaterThanWordSize();
+
     return 0;
 }

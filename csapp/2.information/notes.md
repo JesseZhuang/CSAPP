@@ -109,6 +109,11 @@ Calling string_ueg
 Calling string_leg
  61 62 63 64 65 66
  31 32 33 34 35 00
+$ show-bytes.o 1
+calling test_show_bytes
+ 01 00 00 00 # show int
+ 00 00 80 3f # show float
+ 98 d7 20 ef fe 7f 00 00 # show pointer
 ```
 
 ### 2.1.5 Representing Strings
@@ -162,7 +167,30 @@ Practice Problem 2.15
 
 Using only bit-level and logical operations, write a C expression that is equivalent to `x == y`. In other words, it will return 1 when x and y are equal, and 0 otherwise.
 
-Answer: `!(x^y)`, `~(x^y)` incorrect, `~1` is not `0`.
+Answer: `!(x^y)`, `~(x^y)` incorrect, e.g., `~1` is not `0` but `0xFFFFFFFE` for 32 bit int.
+
+### 2.1.10 Shift Operation in C
+
+**Shift left**
+
+For $x : [x_n−1, x_n−2, . . . , x_0]$, $x << k : [x_{n−k−1}, x_{n−k−2},...,x_0,0,...,0]$. That is, x is shifted k bits to the left, dropping off the k most significant bits and filling the right end with k zeros.
+
+**Logical right shift**
+
+Result is $[0, . . . , 0, x_{n−1}, x_{n−2}, ..., x_k]$
+
+**Arithmetic right shift**
+
+Result is $[x_{n−1}, . . . , x_{n−1}, x_{n−1}, x_{n−2}, ..., x_k]$
+
+The C standards do not precisely define which type of right shift should be used. For unsigned data (i.e., integral objects declared with the qualifier unsigned), right shifts must be logical. For signed data (the default), either arithmetic or logical shifts may be used. This unfortunately means that any code assuming one form or the other will potentially encounter portability problems. In practice, however, almost all compiler/machine combinations use arithmetic right shifts for signed data, and many programmers assume this to be the case.
+
+Java, on the other hand, has a precise definition of how right shifts should be performed. The expression `x >> k` shifts x arithmetically by k positions, while `x >>> k` shifts it logically.
+
+For a data type consisting of w bits, what should be the effect of shifting by some value k ≥ w? See `shiftGreaterThanWordSize()` in `bits.c`. The C standards carefully avoid stating what should be done in such a case. On many machines, the shift instructions consider only the lower log2 w bits of the shift amount when shifting a w-bit value, and so the shift amount is effectively computed as k mod w.
+
+This behavior is not guaranteed for C programs, however, and so shift amounts should be kept less than the word size.
+Java, on the other hand, specifically requires that shift amounts should be computed in the modular fashion we have shown.
 
 ## Character Encodings
 
