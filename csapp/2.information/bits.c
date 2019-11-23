@@ -70,7 +70,8 @@ void shiftGreaterThanWordSize()
     int lval = (val  << 32);
     int aval = (val  >> 36);
     unsigned uval = (val >> 40);
-    show_int(val);
+    int status = system("./show-bytes.o 0xFEDCBA98");
+    printf("system call return code %d\n", status);
     printf("0xFEDCBA98 << 32 == ");
     show_int(lval);
     printf("0xFEDCBA98 >> 36 == ");
