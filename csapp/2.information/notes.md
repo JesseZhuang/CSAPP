@@ -154,6 +154,16 @@ C. The least significant byte set to all 1s, and all other bytes of x left uncha
 
 Answer: `x | 0xFF`
 
+### 2.1.9 Logical Operation in C
+
+A second important distinction between the logical operators `&&` and `||` versus their bit-level counterparts `&` and `|` is that the logical operators do not evaluate their second argument if the result of the expression can be determined by evaluating the first argument. Thus, for example, the expression `a && 5/a` will never cause a division by zero, and the expression `p && *p++` will never cause the dereferencing of a null pointer.
+
+Practice Problem 2.15
+
+Using only bit-level and logical operations, write a C expression that is equivalent to `x == y`. In other words, it will return 1 when x and y are equal, and 0 otherwise.
+
+Answer: `!(x^y)`, `~(x^y)` incorrect, `~1` is not `0`.
+
 ## Character Encodings
 
 - An ASCII character in 8-bit ASCII encoding is 8 bits (1 byte), though it can fit in 7 bits.
