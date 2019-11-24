@@ -219,3 +219,9 @@ The Java programming language uses Unicode in its representations of strings. Pr
 Both C and C++ support signed (the default) and unsigned numbers. Java supports only signed numbers.
 
 ### 2.2.2 Unsigned Encoding
+
+We write bit vector as $\vec x$, or $[x_{w−1}, x_{w−2}, ... , x_0]$ for an integer data type of $w$ bits. The value can be calculated as below. $B2U_w$ means binary to unsigned w bits. This mapping is a bijection—it associates a unique value to each bit vector of length w; conversely, each integer between 0 and 2w − 1 has a unique binary representation as a bit vector of length w.
+
+$B2U_w(\vec x) \doteq \sum_{i=0}^{w-1}x_i2^i$
+
+In this equation, the notation $\doteq$ means that the left-hand side is defined to be equal to the right-hand side.
