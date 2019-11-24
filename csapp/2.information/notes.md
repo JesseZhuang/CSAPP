@@ -187,6 +187,8 @@ The C standards do not precisely define which type of right shift should be used
 
 Java, on the other hand, has a precise definition of how right shifts should be performed. The expression `x >> k` shifts x arithmetically by k positions, while `x >>> k` shifts it logically.
 
+![](bit.shift.png)
+
 For a data type consisting of w bits, what should be the effect of shifting by some value k ≥ w? See `shiftGreaterThanWordSize()` in `bits.c`. The C standards carefully avoid stating what should be done in such a case. On many machines, the shift instructions consider only the lower log2 w bits of the shift amount when shifting a w-bit value, and so the shift amount is effectively computed as k mod w.
 
 This behavior is not guaranteed for C programs, however, and so shift amounts should be kept less than the word size.
@@ -203,3 +205,17 @@ Java, on the other hand, specifically requires that shift amounts should be comp
 - That would mean that there are between 0.03125 and 0.125 characters in a bit.
 
 The Java programming language uses Unicode in its representations of strings. Program libraries are also available for C to support Unicode.
+
+## 2.2 Integer Representations
+
+![](c.size.32bit.png)
+
+![](c.size.64bit.png)
+
+### 2.2.1 Integral Data Types
+
+![](c.size.guaranteed.png)
+
+Both C and C++ support signed (the default) and unsigned numbers. Java supports only signed numbers.
+
+### 2.2.2 Unsigned Encoding
