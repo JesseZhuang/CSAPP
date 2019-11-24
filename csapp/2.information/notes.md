@@ -220,8 +220,36 @@ Both C and C++ support signed (the default) and unsigned numbers. Java supports 
 
 ### 2.2.2 Unsigned Encoding
 
-We write bit vector as $\vec x$, or $[x_{w−1}, x_{w−2}, ... , x_0]$ for an integer data type of $w$ bits. The value can be calculated as below. $B2U_w$ means binary to unsigned w bits. This mapping is a bijection—it associates a unique value to each bit vector of length w; conversely, each integer between 0 and 2w − 1 has a unique binary representation as a bit vector of length w.
+We write bit vector as $\vec x$, or $[x_{w−1}, x_{w−2}, ... , x_0]$ for an integer data type of $w$ bits. The value can be calculated as below. $B2U_w$ means binary to unsigned w bits. This mapping is a bijection—it associates a unique value to each bit vector of length w; conversely, each integer between $0$ and $2^w − 1$ has a unique binary representation as a bit vector of length w.
 
 $B2U_w(\vec x) \doteq \sum_{i=0}^{w-1}x_i2^i$
 
 In this equation, the notation $\doteq$ means that the left-hand side is defined to be equal to the right-hand side.
+
+### 2.2.3 Two's Complement Encoding
+
+The most common computer representation of signed numbers is known as two’s-complement form. This is defined by interpreting the most significant bit of the word to have negative weight. We express this interpretation as a function $B2T_w$ (for “binary to two’s-complement” length w):
+
+$B2T_w(\vec x) \doteq -x_{w-1} \cdot 2^{w-1} + \sum_{i=0}^{w-1}x_i2^i$
+
+We say that the function B2Tw is a bijection—it associates a unique value to each bit vector of length w; conversely, each integer between $− 2^{w−1}$ and $2^{w−1} − 1$ has a unique binary representation as a bit vector of length w.
+
+![](int.range.png)
+
+Note that −1 has the same bit representation as $UMax$—a string of all ones. Numeric value 0 is represented as a string of all zeros in both representations.
+
+For some programs, it is essential that data types be encoded using representations with specific sizes. For example, when writing programs to enable a machine to communicate over the Internet according to a standard protocol, it is important to have data types compatible with those specified by the protocol.
+
+The Java standard is quite specific about integer data type ranges and representations. It requires a two’s-complement representation with the exact ranges shown for the 64-bit case. In Java, the single-byte data type is called `byte` instead of `char`, and there is no `long long` data type. These detailed requirements are intended to enable Java programs to behave identically regardless of the machines running them.
+
+Ones' complement: the most significant bit has weight $−(2^{w−1} − 1)$ rather than $− 2^{w−1}$.
+
+$B2O_w(\vec x) \doteq -x_{w-1} \cdot (2^{w-1} - 1) + \sum_{i=0}^{w-1}x_i2^i$
+
+Sign magnitude: the most significant bit is a sign bit that determines whether the remaining bits should be given negative or positive weight.
+
+$B2S_w(\vec x) \doteq (-1)^{x_{w-1}} \cdot \sum_{i=0}^{w-2}x_i2^i$
+
+Note the different position of apostrophes: Two’s complement versus Ones’ complement. The term “two’s complement” arises from the fact that for nonnegative x we compute a w-bit representation of $−x$ as $2^w − x$ (a single two). The term “ones’ complement” comes from the property that we can compute $−x$ in this notation as $[111...1] − x$ (multiple ones).
+
+### 2.2.4 Conversions Between Signed and Unsigned
