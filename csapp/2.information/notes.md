@@ -253,3 +253,16 @@ $B2S_w(\vec x) \doteq (-1)^{x_{w-1}} \cdot \sum_{i=0}^{w-2}x_i2^i$
 Note the different position of apostrophes: Two’s complement versus Ones’ complement. The term “two’s complement” arises from the fact that for nonnegative x we compute a w-bit representation of $−x$ as $2^w − x$ (a single two). The term “ones’ complement” comes from the property that we can compute $−x$ in this notation as $[111...1] − x$ (multiple ones).
 
 ### 2.2.4 Conversions Between Signed and Unsigned
+
+![](unsigned.cast.png)
+
+### 2.2.5 Signed vs. Unsigned in C
+
+In `limits.h` C header file,
+
+```C
+#define INT_MIN   (-INT_MAX - 1)
+```
+
+
+Unfortunately, a curious interaction between the asymmetry of the two’s-complement representation and the conversion rules of C force us to write $TMin32$ in this unusual way.

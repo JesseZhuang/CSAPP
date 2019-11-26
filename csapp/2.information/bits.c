@@ -88,6 +88,22 @@ void shiftGreaterThanWordSize()
     // 0xFEDCBA98u >> 40 ==  ba dc fe ff
 }
 
+void unsigned_cast() {
+    short int v = -12345;
+    unsigned short uv = (unsigned short)v;
+    printf("v=%d, uv=%u\n", v, uv);
+    unsigned u = 4294967295u;
+    int tu = (int)u; // explicit cast
+    printf("u=%u, tu=%d\n", u, tu);
+
+    int x = -1;
+    u = 2147483648;// 2^31
+    printf("x= %u = %d\n", x, x);
+    printf("u = %u = %d \n", u, u);
+
+    printf("-1 < 0u is %s\n", (-1 < 0u) ? "true" : "false");
+}
+
 int main()
 {
     int x[5];
@@ -97,6 +113,8 @@ int main()
     for (i = 0; i < 5; i++) printf("x[%d]=%d\n", i, x[i]);
 
     shiftGreaterThanWordSize();
+
+    unsigned_cast();
 
     return 0;
 }
