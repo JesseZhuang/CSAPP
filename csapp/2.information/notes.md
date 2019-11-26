@@ -266,3 +266,14 @@ In `limits.h` C header file,
 
 
 Unfortunately, a curious interaction between the asymmetry of the two’s-complement representation and the conversion rules of C force us to write $TMin32$ in this unusual way.
+
+### 2.2.6 Expanding the Bit Representation
+
+To convert an unsigned number to a larger data type, we can simply add leading zeros to the representation; this operation is known as zero extension. For converting a two’s- complement number to a larger data type, the rule is to perform a sign extension, adding copies of the most significant bit to the representation.
+
+```C
+short sx = -12345; /* -12345 */
+unsigned uy = sx; /* Mystery! */
+```
+
+When converting from short to unsigned, we first change the size and then from signed to unsigned. That is, (unsigned) sx is equivalent to (unsigned) (int) sx, evaluating to 4,294,954,951, not (unsigned) (unsigned short) sx, which evaluates to 53,191.
