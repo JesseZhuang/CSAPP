@@ -114,6 +114,15 @@ calling test_show_bytes
  01 00 00 00 # show int
  00 00 80 3f # show float
  98 d7 20 ef fe 7f 00 00 # show pointer
+system call return code 0
+0xFEDCBA98 << 32 ==  98 ba dc fe
+0xFEDCBA98 >> 36 ==  a9 cb ed ff
+0xFEDCBA98u >> 40 ==  ba dc fe ff
+v=-12345, uv=53191
+u=4294967295, tu=-1
+x= 4294967295 = -1
+u = 2147483648 = -2147483648
+-1 < 0u is false
 ```
 
 ### 2.1.5 Representing Strings
@@ -268,6 +277,8 @@ In `limits.h` C header file,
 Unfortunately, a curious interaction between the asymmetry of the two’s-complement representation and the conversion rules of C force us to write $TMin32$ in this unusual way.
 
 ### 2.2.6 Expanding the Bit Representation
+
+![](c.cast.promotion.png)
 
 To convert an unsigned number to a larger data type, we can simply add leading zeros to the representation; this operation is known as zero extension. For converting a two’s- complement number to a larger data type, the rule is to perform a sign extension, adding copies of the most significant bit to the representation.
 
