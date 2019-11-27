@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
         simple_show_a();
         printf("Calling simple_show_b\n");
         simple_show_b();
-        printf("Calling float_eg\n");// 21 bits match
+        printf("Calling float_eg\n"); // 21 bits match
         float_eg();
         printf("Calling string_ueg\n");
         string_ueg();

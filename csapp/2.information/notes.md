@@ -277,3 +277,19 @@ unsigned uy = sx; /* Mystery! */
 ```
 
 When converting from short to unsigned, we first change the size and then from signed to unsigned. That is, (unsigned) sx is equivalent to (unsigned) (int) sx, evaluating to 4,294,954,951, not (unsigned) (unsigned short) sx, which evaluates to 53,191.
+
+### 2.2.7 Truncating Numbers
+
+When truncating a w-bit number $\vec x = [x_{w−1}, x_{w−2}, ... , x_0]$ to a k-bit number, we drop the high-order $w − k$ bits, giving a bit vector $\vec x = [x_{k−1}, x_{k−2}, ... , x_0]$. Truncating a number can alter its value—a form of overflow.
+
+For an unsigned number x, the result of truncating it to k bits is equivalent to computing x mod $2^k$.
+
+$B2U_k([x_{k−1}, x{k−2}, ... , x_0]) = B2U_w([x_{w−1}, x_{w−2}, ... , x_0])\ \ mod\ \ 2^k$
+
+For two's complement number,
+
+$B2T_k([x_{k−1}, x{k−2}, ... , x_0]) = U2T_k(B2U_w([x_{w−1}, x_{w−2}, ... , x_0])\ \ mod\ \ 2^k)$
+
+### 2.2.8 Advice on Signed vs. Unsigned
+
+See `sum_elements.c` for subtle bug due to implicit casting of unsigned number.
