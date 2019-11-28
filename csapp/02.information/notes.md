@@ -303,4 +303,34 @@ $B2T_k([x_{k−1}, x{k−2}, ... , x_0]) = U2T_k(B2U_w([x_{w−1}, x_{w−2}, ..
 
 ### 2.2.8 Advice on Signed vs. Unsigned
 
-See `sum_elements.c` for subtle bug due to implicit casting of unsigned number.
+See `sum_elements.c` for subtle bug due to implicit casting of unsigned number. See `longer_string.c` for unsigned arithmetic operation overflow.
+
+Basically should try to avoid:
+
+1. Operations mixing the two types, e.g., comparing signed and unsigned.
+2. Arithmetic for unsigned overflow: 0u - 1u.
+
+In 2002, programmers involved in the FreeBSD open source operating systems project realized that their implementation of the getpeername library function had a security vulnerability.
+
+```C
+/*
+ * Illustration of code vulnerability similar to that found in
+ * FreeBSD’s implementation of getpeername()
+ */
+/* Declaration of library function memcpy */
+void *memcpy(void *dest, void *src, size_t n);
+/* Kernel memory region holding user-accessible data */
+#define KSIZE 1024
+char kbuf[KSIZE];
+/* Copy at most maxlen bytes from kernel region to user buffer */
+int copy_from_kernel(void *user_dest, int maxlen) {
+    /* Byte count len is minimum of buffer size and maxlen */
+    int len = KSIZE < maxlen ? KSIZE : maxlen;
+    memcpy(user_dest, kbuf, len);
+    return len;
+}
+```
+
+They issued a security advisory, “FreeBSD-SA-02:38.signed-error,” advising system administrators on how to apply a patch that would remove the vulnerability. The bug can be fixed by declaring parameter maxlen to copy_from_kernel to be of type `size_t`, to be consistent with parameter `n` of `memcpy`. We should also declare local variable `len` and the return value to be of type `size_t`.
+
+In fact, few languages other than C support unsigned integers. Apparently these other language designers viewed them as more trouble than they are worth. For example, Java supports only signed integers. Unsigned values are very useful when we want to think of words as just collections of bits with no numeric interpretation. This occurs, for example, when packing a word with flags describing various Boolean conditions. Addresses are naturally unsigned, so systems programmers find unsigned types to be helpful. Unsigned values are also useful when implementing mathematical packages for modular arithmetic and for multiprecision arithmetic, in which numbers are represented by arrays of words.
