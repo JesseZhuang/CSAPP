@@ -150,19 +150,18 @@ The `kill()` system call is used to send signals to a process, including directi
 
 # 2.4 CPU Mechanism-Limited Direct Execution
 
-Obtaining high performance (avoid overhead) while maintaining control is thus one of the central challenges in building an operating system.
+The basic idea is simple: run one process for a little while, then run another one, and so forth. By time sharing the CPU in this manner, virtualization is achieved. Obtaining high performance (avoid overhead) while maintaining control is thus one of the central challenges in building an operating system.
 
-### Limited Direct Execution
+### 2.4.1. Limited Direct Execution
 
 ![direct execution without limit](direct.execution.protocol.png)
 
 1. How can the OS make sure the program doesn’t do anything that we don’t want it to do, while still running it efficiently?
 1. How does the operating system stop it from running and switch to another process, thus implementing the time sharing we require to virtualize the CPU?
 
-### Restricted Operations
+### 2.4.2. Restricted Operations
 
-A process must be able to perform I/O and gaining access to more resources such as CPU and memory, but without giving the process complete control over the system.
-How can the OS and hardware work together to do so?
+A process must be able to perform I/O and gaining access to more resources such as CPU and memory, but without giving the process complete control over the system. How can the OS and hardware work together to do so?
 
 Thus, the approach we take is to introduce a new processor mode, known as **user mode**; code that runs in user mode is restricted in what it can do. For example, when running in user mode, a process can’t issue I/O requests; doing so would result in the processor raising an exception; the OS would then likely kill the process.
 
@@ -172,4 +171,8 @@ The hardware assists the OS by providing different modes of execution. In user m
 
 System calls allow the kernel to carefully expose certain key pieces of functionality to user programs, such as accessing the file system, creating and destroying processes, communicating with other processes, and allocating more memory. Most operating systems provide a few hundred calls (see the POSIX standard for details); early Unix systems exposed a more concise subset of around twenty calls.
 
-The parts of the C library that make system calls are hand-coded in assembly, as they need to carefully follow convention in order to process arguments and return values (onto stack or specific registers agreed upon) correctly, as well as execute the hardware-specific trap instruction. And now you know why you personally don’t have to write assembly code to trap into an OS; somebody has already written that assembly for you.
+A system call in C, such as `open()` or `read()`, looks just like a procedure call. It is a procedure call, but hidden in- side that procedure call is the famous *trap instruction*. The parts of the C library that make system calls are hand-coded in assembly, as they need to carefully follow convention in order to process arguments and return values (onto stack or specific registers agreed upon) correctly, as well as execute the hardware-specific trap instruction. And now you know why you personally don’t have to write assembly code to trap into an OS; somebody has already written that assembly for you.
+
+![](direct.execution.protocol.limited.png)
+
+To specify the exact system call, a system-call number is assigned to each system call. The user code is responsible for placing the desired system-call number in a register or at a specified location on the stack; the OS, inside the trap handler, examines this number, ensures it is valid, and, executes the corresponding code. This level of indirection serves as a form of protection; user code cannot specify an exact address to jump to, but rather must request a particular service via number.
