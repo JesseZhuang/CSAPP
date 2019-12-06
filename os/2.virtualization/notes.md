@@ -159,7 +159,7 @@ The basic idea is simple: run one process for a little while, then run another o
 1. How can the OS make sure the program doesn’t do anything that we don’t want it to do, while still running it efficiently?
 1. How does the operating system stop it from running and switch to another process, thus implementing the time sharing we require to virtualize the CPU?
 
-### 2.4.2. Restricted Operations
+### 2.4.2. Problem 1: Restricted Operations
 
 A process must be able to perform I/O and gaining access to more resources such as CPU and memory, but without giving the process complete control over the system. How can the OS and hardware work together to do so?
 
@@ -173,6 +173,24 @@ System calls allow the kernel to carefully expose certain key pieces of function
 
 A system call in C, such as `open()` or `read()`, looks just like a procedure call. It is a procedure call, but hidden in- side that procedure call is the famous *trap instruction*. The parts of the C library that make system calls are hand-coded in assembly, as they need to carefully follow convention in order to process arguments and return values (onto stack or specific registers agreed upon) correctly, as well as execute the hardware-specific trap instruction. And now you know why you personally don’t have to write assembly code to trap into an OS; somebody has already written that assembly for you.
 
-![](direct.execution.protocol.limited.png)
+The hardware needs to be a bit careful when executing a trap, in that it must make sure to save enough of the caller’s registers in order to be able to return correctly when the OS issues the return-from-trap instruction. On x86, for example, the processor will push the program counter, flags, and a few other registers onto a per-process kernel stack; the return-from- trap will pop these values off the stack and resume execution of the user- mode program (see the Intel systems manuals for details).
 
 To specify the exact system call, a system-call number is assigned to each system call. The user code is responsible for placing the desired system-call number in a register or at a specified location on the stack; the OS, inside the trap handler, examines this number, ensures it is valid, and, executes the corresponding code. This level of indirection serves as a form of protection; user code cannot specify an exact address to jump to, but rather must request a particular service via number.
+
+![](direct.execution.protocol.limited.png)
+
+### 2.4.3 Problem 2 Switching Between Processes
+
+If a process is running on the CPU, this by definition means the OS is not running and OS cannot do anything. How can the operating system regain control of the CPU?
+
+**A Cooperative Approach: Wait For System Calls**
+
+Thus, you might ask, how does a friendly process give up the CPU in this utopian world? Most processes, as it turns out, transfer control of the CPU to the OS quite frequently by making system calls.
+- to open a file and subsequently read it
+- to send a message to another machine
+- to create a new process
+- illegal op: divide by zero, illegal access memory
+
+Systems like this often include an explicit `yield` system call, which does nothing except to transfer control to the OS so it can run other processes.
+
+In a cooperative scheduling system, the OS regains control of the CPU by waiting for a system call or an illegal operation of some kind to take place. What happens, for example, if a process (whether malicious, or just full of bugs) ends up in an infinite loop, and never makes a system call?
