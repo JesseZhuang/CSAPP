@@ -194,3 +194,9 @@ Thus, you might ask, how does a friendly process give up the CPU in this utopian
 Systems like this often include an explicit `yield` system call, which does nothing except to transfer control to the OS so it can run other processes.
 
 In a cooperative scheduling system, the OS regains control of the CPU by waiting for a system call or an illegal operation of some kind to take place. What happens, for example, if a process (whether malicious, or just full of bugs) ends up in an infinite loop, and never makes a system call?
+
+**A Non-Cooperative Approach: The OS Takes Control**
+
+Your only recourse when a process gets stuck in an infinite loop is to resort to the age-old solution to all problems in computer systems: reboot the machine.
+
+The addition of a timer interrupt gives the OS the ability to run again on a CPU even if processes act in a non-cooperative fashion. Thus, this hardware feature is essential in helping the OS maintain control of the machine.
