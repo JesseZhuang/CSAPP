@@ -199,4 +199,41 @@ In a cooperative scheduling system, the OS regains control of the CPU by waiting
 
 Your only recourse when a process gets stuck in an infinite loop is to resort to the age-old solution to all problems in computer systems: reboot the machine.
 
-The addition of a timer interrupt gives the OS the ability to run again on a CPU even if processes act in a non-cooperative fashion. Thus, this hardware feature is essential in helping the OS maintain control of the machine.
+A timer device can be programmed to raise an interrupt every so many milliseconds. The addition of a timer interrupt gives the OS the ability to run again on a CPU (through a pre-configured interrupt handler) even if processes act in a non-cooperative fashion. Thus, this hardware feature is essential in helping the OS maintain control of the machine.
+
+At boot time, he OS must inform the hardware of which code to run when the timer interrupt occurs and start the timer, which is of course a privileged operation.
+
+**Saving and Restoring Context**
+
+When the OS regained control, the scheduler will make a decision: whether to continue running the currently-running process, or switch to a different one.
+
+```shell
+# void swtch(struct context **old, struct context *new);
+# Save current register context in old
+# and then load register context from new.
+.globl swtch
+swtch:
+  # Save old registers
+  movl 4(%esp), %eax # put old ptr into eax
+  popl 0(%eax) # save the old IP
+  movl %esp, 4(%eax) # and stack
+  movl %ebx, 8(%eax) # and other registers
+  movl %ecx, 12(%eax)
+  movl %edx, 16(%eax)
+  movl %esi, 20(%eax)
+  movl %edi, 24(%eax)
+  movl %ebp, 28(%eax)
+  # Load new registers
+  movl 4(%esp), %eax # put new ptr into eax
+  movl 28(%eax), %ebp # restore other registers
+  movl 24(%eax), %edi
+  movl 20(%eax), %esi
+  movl 16(%eax), %edx
+  movl 12(%eax), %ecx
+  movl 8(%eax), %ebx
+  movl 4(%eax), %esp # stack is switched here
+  pushl 0(%eax) # return addr put in place
+  ret # finally return into new ctxt
+```
+
+Note that there are two types of register saves/restores that happen during this protocol. The first is when the timer interrupt occurs; in this case, the user registers of the running process are implicitly saved by the hardware, using the kernel stack of that process. The second is when the OS decides to switch from A to B; in this case, the kernel registers are explicitly saved by the software (i.e., the OS), but this time into memory in the process structure of the process. The latter action moves the system from running as if it just trapped into the kernel from A to as if it just trapped into the kernel from B.
