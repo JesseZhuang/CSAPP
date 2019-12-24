@@ -269,3 +269,13 @@ Scheduling employs a series of policies (sometimes called disciplines). The orig
 4. All jobs only use the CPU (i.e., they perform no I/O) 5. The run-time of each job is known.
 
 Many of these assumptions were unrealistic and some assumptions are more unrealistic than others in this chapter. In particular, it might bother you that the run-time of each job is known: this would make the scheduler omniscient, which, although it would be great (probably), is not likely to happen anytime soon.
+
+### 2.5.2 Scheduling Metrics
+
+The turnaround time of a job is defined as the time at which the job completes minus the time at which the job arrived in the system, which is a performance metric.
+
+$T_{turnaround} = T_{completion} - T_{arrival}$
+
+Another metric of interest is fairness, as measured (for example) by Jain’s Fairness Index. Performance and fairness are often at odds in scheduling; a scheduler, for example, may optimize performance but at the cost of preventing a few jobs from running, thus decreasing fairness. This conundrum shows us that life isn’t always perfect.
+
+### 2.5.3 First In, First Out
