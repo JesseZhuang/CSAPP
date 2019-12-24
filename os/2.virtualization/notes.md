@@ -262,3 +262,10 @@ Specifically, reboot is useful because it moves software back to a known and lik
 Scheduling employs a series of policies (sometimes called disciplines). The origins of scheduling, in fact, predate computer systems; early approaches were taken from the field of operations management and applied to computers. This reality should be no surprise: assembly lines and many other human endeavors also require scheduling, and many of the same concerns exist therein, including a laser-like desire for efficiency.
 
 ### 2.5.1 Workload Assumptions
+
+1. Each job runs for the same amount of time.
+2. All jobs arrive at the same time.
+3. Once started, each job runs to completion.
+4. All jobs only use the CPU (i.e., they perform no I/O) 5. The run-time of each job is known.
+
+Many of these assumptions were unrealistic and some assumptions are more unrealistic than others in this chapter. In particular, it might bother you that the run-time of each job is known: this would make the scheduler omniscient, which, although it would be great (probably), is not likely to happen anytime soon.
