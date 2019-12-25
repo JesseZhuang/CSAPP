@@ -279,3 +279,12 @@ $T_{turnaround} = T_{completion} - T_{arrival}$
 Another metric of interest is fairness, as measured (for example) by Jain’s Fairness Index. Performance and fairness are often at odds in scheduling; a scheduler, for example, may optimize performance but at the cost of preventing a few jobs from running, thus decreasing fairness. This conundrum shows us that life isn’t always perfect.
 
 ### 2.5.3 First In, First Out
+
+FIFO has a number of positive properties: it is clearly simple and thus easy to implement. And, given our assumptions, it works pretty well.
+
+![](fifo.convoy.png)
+
+Job A runs first for the full 100 seconds
+before B or C even get a chance to run. Thus, the average turnaround time for the system is high:a painful 110seconds. This problem is generally referred to as the convoy effect, where a number of relatively-short potential consumers of a resource get queued behind a heavyweight resource consumer.
+
+Shortest Job First represents a general scheduling principle that can be applied to any system where the perceived turnaround time per customer (or, in our case, a job) matters. For example, grocery stores commonly have a “ten-items-or-less” line to ensure that shoppers with only a few things to purchase don’t get stuck behind the family preparing for some upcoming nuclear winter.
