@@ -1,4 +1,14 @@
-## Program Translation
+## 1.1 Information is Bits
+
+The `hello.c` program is stored in a file as a sequence of bites.
+
+![](./ascii.hello.c.png)
+
+All information, including disk files, programs in memory, user data in memory, and data transferred across a network is represented as a bunch of bits. The difference is the context in which we view them.
+
+ANSI: american national standards institute. ANSI ratified the ANSI C standard in 1989.
+
+## 1.2 Program Translation
 
 ![compilation system](compilation.system.png)
 
@@ -10,7 +20,16 @@ unix>
 ```
 The GNU environment includes the emacs editor, gcc compiler, gdb debugger, assembler, linker, utilities for manipulating binaries, and other components. The gcc compiler has grown to support many different languages, with the ability to generate code for many different machines. Supported languages include C, C++, Fortran, Java, Pascal, Objective-C, and Ada.
 
-## Hardware Organization
+## 1.3 How Compilation Systems Work
+
+Why?
+1. Optimizing program performance. Understand how the compiler translate. For example, is a `switch` statement alwasys more efficient than a sequence of `if-else` statements?
+1. Understand link-time errors. For example, likner reports that it cannot resolve a reference. Why does it matter what order we list libraries on the command line.
+1. Avoiding security holes. Buffer overflow vulnerabilities accounted for the majority of security holes in network and Internet servers.
+
+## 1.4 Processors Interpret Instructions Stored in Memory
+
+### 1.4.1 Hardware Organization
 
 ![hardware organization](hardware.organization.png)
 
@@ -38,7 +57,7 @@ L2 cache connects through special bus, millions of bytes, 5 times slower than L1
 
 Machine Language: IA 32, x86-64.
 
-## Running Executable
+### 1.4.2 Running Executable
 
 Using a technique known as direct memory access (DMA), the data travels directly from disk to main memory, without passing through the processor.
 
@@ -48,7 +67,7 @@ Once the code and data in the hello object file are loaded into memory, the proc
 
 ![print hello world](print.display.png)
 
-## Cache
+## 1.5 Cache
 
 For example, the disk drive on a typical system might be 1000 times larger than the main memory, but it might take the processor 10,000,000 times longer to read a word from disk than from memory.  Even more troublesome, as semiconductor technology progresses over the years, this processor-memory gap continues to increase. It is easier and cheaper to make processors run faster than it is to make main memory run faster.
 
@@ -62,29 +81,27 @@ The L1 and L2 caches are implemented with a hardware technology known as static 
 |RAM|1 Gb|100|
 |Disk|1 Tb|1 billion|
 
+## 1.6 Storage Hierarchy
+
+The main idea of a memory hierarchy is that storage at one level serves as a cache for storage at the next lower level. On some networked systems with distributed file systems, the local disk serves as cache for data stored on the dissk of other systems.
+
 ![Memory Hierarchy](memory.hierarchy.png)
 
-## OS Manages Hardware
+## 1.7 OS Manages Hardware
 
 All attempts by an application program to manipulate the hardware must go through the operating system.
 
 ![](computer.layered.view.png)
 
-The use of abstractions is one of the most important concepts in computer science. For example, one aspect of good programming practice is to formulate a simple application-program interface (API) for a set of functions that allow programmers to use the code without having to delve into its inner workings. Different programming languages provide different forms and levels of support for abstraction, such as Java class declarations and C function prototypes.
-
-On the processor side, the instruction set architecture provides an abstraction of the actual processor hardware. With this abstraction, a machine-code program behaves as if it were executed on a processor that performs just one instruction at a time. The underlying hardware is far more elaborate, executing multiple instructions in parallel, but always in a way that is consistent with the simple, sequential model. By keeping the same execution model, different processor implementations can execute the same machine code, while offering a range of cost and performance.
-
-![](abstraction.png)
-
-### Processes
+### 1.7.1 Processes
 
 ![](context.switch.png)
 
-### Threads
+### 1.7.2 Threads
 
 Threads are an increasingly important programming model because of the requirement for concurrency in network servers, because it is easier to share data between multiple threads than between multiple processes, and because threads are typically more efficient than processes.
 
-### Virtual Memory
+### 1.7.3 Virtual Memory
 
 Each process has the same uniform view of memory, which is known as its virtual address space.
 
@@ -100,13 +117,17 @@ The virtual address space seen by each process consists of a number of well- def
 
 For virtual memory to work, a sophisticated interaction is required between the hardware and the operating system software, including a hardware translation of every address generated by the processor. The basic idea is to store the contents of a process’s virtual memory on disk, and then use the main memory as a cache for the disk.
 
-### Files
+### 1.7.4 Files
 
-Every I/O device, including disks, keyboards, displays, and even networks, is modeled as a file.
+Every I/O device, including disks, keyboards, displays, and even networks, is modeled as a file. When the system copies a sequence of bytes from main memory to the network adapter, the data flows across the network to another machine, instead of, say, to a local disk drive.
 
-## Important Themes
+## 1.8 Systems Communicated Using Networks
 
-### Concurrency and Parallelism
+From the point of view of an individual system, the network can be viewed as just another I/O device.
+
+## 1.9 Important Themes
+
+### 1.9.1 Concurrency and Parallelism
 
 ![](intel.core.i7.png)
 
@@ -127,3 +148,19 @@ Processors that can sustain execution rates faster than one instruction per cycl
 Recent generations of Intel and AMD processors have instructions that can add four pairs of single-precision floating-point numbers (C data type float) in parallel.
 
 These SIMD instructions are provided mostly to speed up applications that process image, sound, and video data. Although some compilers attempt to automatically extract SIMD parallelism from C programs, a more reliable method is to write programs using special vector data types supported in compilers such as gcc.
+
+### 1.9.2 Importance of Abstraction
+
+Example support for abstractions: Java class declarations and C function prototypes.
+
+The use of abstractions is one of the most important concepts in computer science. For example, one aspect of good programming practice is to formulate a simple application-program interface (API) for a set of functions that allow programmers to use the code without having to delve into its inner workings. Different programming languages provide different forms and levels of support for abstraction, such as Java class declarations and C function prototypes.
+
+On the processor side, the instruction set architecture provides an abstraction of the actual processor hardware. With this abstraction, a machine-code program behaves as if it were executed on a processor that performs just one instruction at a time. The underlying hardware is far more elaborate, executing multiple instructions in parallel, but always in a way that is consistent with the simple, sequential model. By keeping the same execution model, different processor implementations can execute the same machine code, while offering a range of cost and performance.
+
+![](abstraction.png)
+
+Abstractions on the OS side:
+1. files -> I/O
+1. virtual memory -> program memory
+1. processes -> running program
+1. virtual machine -> the entire computer
