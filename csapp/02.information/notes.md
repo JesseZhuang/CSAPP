@@ -345,6 +345,10 @@ Comparison `x<y` can yield a different result than `x-y<0`.
 
 ### 2.3.1 Unsigned Addition
 
+Consider two nonnegative integers x and y, $0 <= x, y <= 2^w-1$. The sum range is $0<=x+y<=2^{w+1}-2$. To represent this sum, we need $w+1$ bits. This continued “word size inflation” means we cannot place any bound on the word size. Some programming languages, such as Lisp, actually support infinite precision arithmetic to allow arbitrary (within the memory limits of the machine, of course) integer arithmetic.
+
+Unsigned arithmetic can be viewed as a form of modular arithmetic. For example, consider a 4-bit number representation with $x = 9$ and $y = 12$, having bit representations `[1001]` and `[1100]`, respectively. Their sum is 21, having a 5-bit representation `[10101]`. But if we discard the high-order bit, we get `[0101]`, that is, decimal value 5. This matches the value 21 mod 16 = 5.
+
 
 
 <!-- References -->
