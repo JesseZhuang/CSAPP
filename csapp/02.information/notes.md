@@ -349,6 +349,27 @@ Consider two nonnegative integers x and y, $0 <= x, y <= 2^w-1$. The sum range i
 
 Unsigned arithmetic can be viewed as a form of modular arithmetic. For example, consider a 4-bit number representation with $x = 9$ and $y = 12$, having bit representations `[1001]` and `[1100]`, respectively. Their sum is 21, having a 5-bit representation `[10101]`. But if we discard the high-order bit, we get `[0101]`, that is, decimal value 5. This matches the value 21 mod 16 = 5.
 
+Modular addition forms a mathematical structure known as an abelian (Danish, Niels Henrik Abel) group. That is, it is commulative (abelian part) and associative; it has an identity element 0, and every element has an additive inverse.
+
+$-^u_wx =
+  \begin{cases}
+    x,  &\quad x = 0\\
+    2^w-x,  &\quad x > 0
+  \end{cases}
+$
+
+Practice Problem 2.28
+
+|x||$-^u_4x$||
+|-|-|-|-|
+|Hex|Decimal|Decimal|Hex|
+|0|0|0|0|
+|5|5|11|b|
+|8|8|8|8|
+|d|13|3|3|
+|f|15|1|1|
+
+### 2.3.2 Two's-Complement Addition
 
 
 <!-- References -->
