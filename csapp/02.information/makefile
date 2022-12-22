@@ -14,3 +14,7 @@ longer_string: longer_string.c
 	gcc -o longer_string.o longer_string.c
 uadd_ok: uadd_ok.c
 	gcc -o uadd_ok.o uadd_ok.c
+tadd_ok: tadd_ok.c
+	gcc -o tadd_ok.o tadd_ok.c
+tsub_ok: tsub_ok.c
+	gcc -o tsub_ok.o tsub_ok.c

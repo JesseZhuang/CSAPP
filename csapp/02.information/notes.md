@@ -358,7 +358,9 @@ $-^u_wx =
   \end{cases}
 $
 
-Practice Problem 2.28
+**Practice Problem 2.28**
+
+w = 4, 4 bit unsigned numbers, 2^4 = 16
 
 |x||$-^u_4x$||
 |-|-|-|-|
@@ -371,6 +373,45 @@ Practice Problem 2.28
 
 ### 2.3.2 Two's-Complement Addition
 
+With two's complement addition, given $-2^{w-1} <= x,y <= 2^{w-1}-1$, the sum is in the range $-2^{w} <= x,y <= 2^{w}-2$. As before, we avoid expanding to $w+1$ bits by truncating. However, the result is not methematically modular addition.
+
+In face, most computers use the same machine instruction to perform either unsigned or signed addition.
+
+**Practice Problem 2.31**
+
+Always true, does not depend on overflowing or not.
+
+```c
+int tadd_ok(int x, int y) {
+    int sum = x+y;
+    return (sum-x == y) && (sum-y == x);
+}
+```
+
+```shell
+$ ./tadd_ok.o 
+x=2147483647, y=1, sum=-2147483648
+positive overflow, sum - x = 1 
+tadd_ok ? = 0
+x=-1, y=-2147483648, sum=2147483647
+negative overflow, sum - x = -2147483648 
+tadd_ok ? = 0
+
+$ ./tsub_ok.o 
+INT_MIN: -2147483648, -INT_MIN: -2147483648
+x=1, y=-2147483648, sum=-2147483647
+tsub_ok ? = 1
+x=-1, y=-2147483648, sum=2147483647
+negative overflow, sum - x = -2147483648 
+tsub_ok ? = 0
+x=2, y=2147483647, sum=-2147483647
+positive overflow, sum - x = 2147483647 
+tsub_ok ? = 0
+```
+
+### 2.3.3 Two's-Complement Negation
+
+### 2.3.4 
 
 <!-- References -->
 
