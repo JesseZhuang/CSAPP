@@ -22,5 +22,6 @@ int main()
 {
     printf("tadd_ok ? = %d\n", tadd_ok(INT_MAX, 1));
     printf("tadd_ok ? = %d\n", tadd_ok(-1, INT_MIN));
+    printf("tadd_ok ? = %d\n", tadd_ok(INT_MIN, INT_MIN));
     return 0;
 }

@@ -411,7 +411,35 @@ tsub_ok ? = 0
 
 ### 2.3.3 Two's-Complement Negation
 
-### 2.3.4 
+The additive inverse for two's-complement is as follows.
+
+$-^t_wx = 
+  \begin {cases}
+    -2^{w-1}, &\quad x = -2^{w-1}\\
+    -x, &\quad x > -2^{w-1}
+  \end {cases}
+$
+
+$-^t_wx + x \equiv 0$
+
+**Practice Problem 2.33**
+
+w = 4, 4 bit unsigned numbers, 2^4 = 16
+
+|x||$-^t_4x$||
+|-|-|-|-|
+|Hex|Decimal|Decimal|Hex|
+|0|0|0|0|
+|5|5|-5|b|
+|8|-8|-8|8|
+|d|-3|3|3|
+|f|-1|1|1|
+
+Comparing with practice problem 2.28. The hex representations are the same. Decimal representations can be different.
+
+### 2.3.4 Unsigned Multiplication
+
+
 
 <!-- References -->
 
