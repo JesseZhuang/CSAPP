@@ -564,8 +564,11 @@ We now see that division by a power of 2 can be implemented using logical or ari
 
 **Practice Problem 2.43**
 
+The code `x<<5 - x`, so M is 31. `y>>3` so N is 8.
 
-### 2.3.8
+### 2.3.8 Final Thoughts on Integer Arithmetic
+
+
 
 ## 2.4 Floating Point
 
