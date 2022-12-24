@@ -1,4 +1,4 @@
-# Representing and Manipulating Information
+# Chapter 2 Representing and Manipulating Information
 
 Using decimal notation is natural for ten-fingered humans, but binary values work better when building machines that store and process information. Two-valued signals can readily be represented, stored, and transmitted, for example, as the presence or absence of a hole in a punched card, as a high or low voltage on a wire, or as a magnetic domain oriented clockwise or counterclockwise.
 
@@ -493,6 +493,83 @@ else // return error
 
 
 ### 2.3.6 Multiplying by Constants
+
+On most machines, the integer multiply instruction is fairly slow, requiring 10 or more clock cycles, whereas other integer operations—such as addition, subtraction, bit-level operations, and shifting—require only 1 clock cycle. Compilers use optimizations to replace by constant factors with combinations of shift and addition operations, e.g., rewrite `x*14` with `x<<3 + x<<2 + x<<1`, or event better `x<<4 - x<<1`. This works for unsigned and two's complement even with overflow.
+
+**Practice Problem 2.38**
+
+Most compilers only perform this optimization when a small number of shifts, adds, and subtractions suffice.
+
+b=0,a and k=0,1,2,3;then LEA can calculate waht multiples of a?
+
+`a<<k` can get 1,2,4,8 (b=0) 2,3,5,9(b=a).
+
+Generalize the 14 example, if the factor's binary representation has 1 in bits m to n, multiplication can be calculated as:
+
+Form A: `(x<<n) + (x<<n-1) + ... + (x<<m)`
+
+Form B: `(x<<n+1) - (x<<m)`
+
+**Practice Problem 2.39**
+
+How could we modify the expression for form B for the case where bit position n is the most significant bit?
+
+Form B: `-(x<<m)`
+
+**Practice Problem 2.40**
+
+|K|binary|Shifts| Add/Subs| Expression|Notes|
+|-|-|-|-|-|-|
+6|110|2|1|`x<<1` + `x<<2` or `x<<3` - `x<<1`|m,n neighboring, either A or B
+31|11111|1|1|`x<<5` - x|B better
+−6|1010|2|1|`x<<1` - `x<<3`|trick 2-8=-6
+|55|110111|2|2|`x<<6` - `x<<3` - x|trick 64-8-1=55
+
+For 55 bit pattern [110111] can be viewed 6 ones with a zero in the middle, we apply the rule for form B, but then we subtract the term corresponding to the middle zero bit.
+
+**Practice Problem 2.41**
+
+Assuming cost is same for add and subtract.
+- A: 1 shift when n = m; n-m+1 shifts and n-m adds when n>m.
+- B: 2 shifts when n = m; 2 shifts and 1 subtract when n>m.
+
+So,
+- n > m+1: B less operations.
+- n = m+1: same
+- n = m: A less.
+
+### 2.3.7 Dividing by Powers of Two
+
+Integer division on most machines is even slower than integer multiplication—requiring 30 or more clock cycles.
+
+Integer division in C rounds toward zero.
+
+For $x\geq0$ and $y>0$, the result is $\lfloor x/y \rfloor$.
+
+For $x<0$ and $y>0$, the result is $\lceil x/y \rceil = \lfloor (x+y-1)/y \rfloor$. $y-1$ is known as the bias before the bit shifting.
+
+**Practice Problem 2.42**
+
+Write a function div16 that returns the value x/16 for integer argument x. Your function should not use division, modulus, multiplication, any conditionals (if or ?:), any comparison operators (e.g., <, >, or ==), or any loops. You may assume that data type int is 32 bits long and uses a two’s-complement representation, and that right shifts are performed arithmetically.
+
+```c
+int div16(int x) {
+  // 0 for x>=0 and 15 for x < 0, trick with x>>31 to generate 15
+  int bias = (x>>31) & 0xF;
+  return (x + bias) >> 4;
+}
+```
+
+We now see that division by a power of 2 can be implemented using logical or arithmetic right shifts. This is precisely the reason the two types of right shifts are available on most machines. Unfortunately, this approach does not generalize to division by arbitrary constants. Unlike multiplication, we cannot express division by arbitrary constants K in terms of division by powers of 2.
+
+**Practice Problem 2.43**
+
+
+### 2.3.8
+
+## 2.4 Floating Point
+
+## 2.5 Summary
 
 
 <!-- References -->
