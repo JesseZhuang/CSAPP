@@ -439,6 +439,60 @@ Comparing with practice problem 2.28. The hex representations are the same. Deci
 
 ### 2.3.4 Unsigned Multiplication
 
+Unsigned multiplication in C is defined to yield the w-bit balue given by the low-order of the 2w-bit integer product.
+
+$^u_wx*^u_wy \equiv (x*y) \, mod \, 2^w$
+
+### 2.3.5 Two's-Complement Multiplication
+
+Signed multiplication in C generally is performed by truncating the 2w-bit product to w bits. The machine can use a single type of multiply instruction to multiply both signed and unsigned integers.
+
+![figure 2.26](./c.multiplication.png)
+
+**Practice Problem 2.37**
+
+```c
+/*
+ * Illustration of code vulnerability similar to that found in
+ * Sun’s XDR library.
+ */
+void* copy_elements(void *ele_src[], int ele_cnt, size_t ele_size) {
+    /*
+     * Allocate buffer for ele_cnt objects, each of ele_size bytes
+     * and copy from locations designated by ele_src
+     */
+    void *result = malloc(ele_cnt * ele_size); // multiplication overflow
+    if (result == NULL) return NULL;  /* malloc failed */
+    void *next = result;
+    int i;
+    for (i =0;i<ele_cnt;i++){
+        /* Copy object i to destination */
+        memcpy(next, ele_src[i], ele_size);
+        /* Move pointer to next memory region */
+        next += ele_size;
+    }
+    return result;
+ }
+```
+
+Replace above code with
+
+```c
+long long unsigned asize = ele_cnt * (long long unsigned) ele_size;
+void *result = malloc(asize);
+```
+
+Assuming `size_t` (mallo's parameter type) is same as `unsigned int`, how to change code to eliminate vulnerability?
+
+```c
+uint64_t asize = ele_cnt * (uint64_t) ele_size;
+unsigned int asize2 = ele_cnt * ele_size
+if (asize == asize2) // malooc
+else // return error
+```
+
+
+### 2.3.6 Multiplying by Constants
 
 
 <!-- References -->

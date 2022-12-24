@@ -18,3 +18,8 @@ tadd_ok: tadd_ok.c
 	gcc -o tadd_ok.o tadd_ok.c
 tsub_ok: tsub_ok.c
 	gcc -o tsub_ok.o tsub_ok.c
+
+# https://stackoverflow.com/questions/51663084/specifying-the-filename-in-a-makefile
+
+%.o: %.c
+	gcc -o $@ $<
