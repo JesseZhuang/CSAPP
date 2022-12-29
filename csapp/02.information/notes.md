@@ -595,9 +595,76 @@ Institute of Electrical and Elec- tronics Engineers (IEEE) standard 754 was desi
 
 ## 2.4.1 Fractional Binary Numbers
 
+**Practice Problem 2.45**
 
+Fractional Value|Binary Representation|Decimal Representation
+-|-|-
+$\frac{1}{8}$|$0.001_2$|$0.125_{10}$
+$\frac{3}{4}$|0.11|0.75
+$\frac{25}{16}$|1.1001|1.5625
+$\frac{43}{16}$|10.1011|2.6875
+$\frac{9}{8}$|1.001|1.125
+$\frac{5}{47}$|101.111|5.875
+$\frac{51}{16}$|11.0011|3.1875
 
-## 2.4.2
+**Practice Problem 2.46**
+
+The program appximated 0.1 with 23 bits $x = 0.00011001100110011001100_2$.
+
+1. What is the binary representation of 0.1 − x?
+1. What is the approximate decimal value of 0.1 − x?
+1. The clock starts at 0 when the system is first powered up and keeps counting up from there. In this case, the system had been running for around 100 hours. What was the difference between the actual time and the time computed by the software?
+1. The system predicts where an incoming missile will appear based on its velocity and the time of the last radar detection. Given that a Scud travels at around 2000 meters per second, how far off was its prediction?
+
+## 2.4.2 IEEE Floating-Point Representation
+
+The IEEE floating-point standard represents a number in a form $V = (−1)^s × M × 2^E$:
+
+1. The sign $s determines whether the number is negative (s = 1) or positive (s = 0), where the interpretation of the sign bit for numeric value 0 is handled as a special case.
+1. The significand M is a fractional binary number that ranges either between 1 and 2 − ε or between 0 and 1 − ε. n-bit fraction field $frac=f_{n-1}...f_1f_0$
+1. The exponent E weights the value by a (possibly negative) power of 2. k bit exponent field $exp=e_{k-1}...e_1e_0$
+
+type|s|exp|frac
+-|-|-|-
+C float|1|8|23
+C double|1|11|52
+
+**Case 1 Normalized Values**
+
+`exp` is neither all zeros (numeric value 0) nor all ones (numeric value 255 for single precision, 2047 for double precision).
+
+$E = e-Bias \equiv ^u_ke_{k-1}...e_1e_0 - (2^{k-1}-1)$
+
+Bias is 127 for signle precision and 1023 for double precision.
+
+Exponent range is [-126, 127] (254 discreet numbers) for single precision and [-1022,1023] for double precision. Two's complement range for 8 bits are [-128, 127].
+
+`frac` is $M = 1 + f$, where  $f$'s binary form is $f{n-1}...f_1f_0$. This representation is a trick for getting one addisional bit for free, since exponent E can be adjusted so that M is in the range $1 \le M < 2$.
+
+**Case 2 Denormalized Values**
+
+When exponent field is all zeroes.
+
+$E = 1 - Bias$, which provides smooth transition from denormalized to normalized values.
+
+$M = f$
+
+1. +0.0 all bits are 0
+1. -0.0 first bit is 1, rest 0
+1. represent numbers very close to 0.0: provide gradual underflow property where possible numeric values are spaced evenly near 0.0
+
+-0.0 and +0.0 are considered diffrent in some ways and the same in others.
+
+**Case 3 Special Values**
+
+`exp` exponent field is all ones.
+
+1. fraction field is all zeroes, represent $+\infty$  when s = 0 or $-\infty$ when s = 1. Inficity can represent results that overflow, as when we multiply two very large numbers or divide by zero.
+1. fraction field is nonzero, $NaN$, "not a number", result cannot be given as a real number or as infinity, as when computing $\sqrt{1}$ or $\infty-\infty$. In some applications represents unitiliazed data.
+
+## 2.4.3 Exampel Numbers
+
+## 2.4.4
 
 ## 2.5 Summary
 
