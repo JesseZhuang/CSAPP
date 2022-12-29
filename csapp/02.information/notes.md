@@ -568,9 +568,36 @@ The code `x<<5 - x`, so M is 31. `y>>3` so N is 8.
 
 ### 2.3.8 Final Thoughts on Integer Arithmetic
 
+**Practice Problem 2.44**
 
+```c
+int x = foo();   /* Arbitrary value */
+int y = bar();   /* Arbitrary value */
+unsigned ux = x;
+unsigned uy = y;
+```
+
+For each of the following C expressions, either (1) argue that it is true (evalu- ates to 1) for all values of x and y, or (2) give values of x and y for which it is false (evaluates to 0):
+
+1. (x>0)||(x-1<0)
+1. (x&7)!=7||(x<<29<0)
+1. (x*x)>=0
+1. x<0||-x<=0
+1. x>0||-x>=0
+1. x+y == uy+ux
+1. x*~y + uy*ux == -x
 
 ## 2.4 Floating Point
+
+Floating point representation encodes rational numbers of the form $x \times 2^y$, useful for computations involving very large numbers, numbers close to 0, and more generally as an approximation to real arithmetic.
+
+Institute of Electrical and Elec- tronics Engineers (IEEE) standard 754 was designed for Intel 8086 processor in 1976.
+
+## 2.4.1 Fractional Binary Numbers
+
+
+
+## 2.4.2
 
 ## 2.5 Summary
 
