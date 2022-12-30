@@ -1,3 +1,3 @@
-hello:
+helloArgs:
 	g++ -o ./helloArgs.o ./helloArgs.cpp
  

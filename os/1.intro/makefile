@@ -15,6 +15,7 @@ cpu: cpu.c common.h
 mem: mem.c common.h
 	gcc -o mem.o mem.c -Wall
 
+# https://stackoverflow.com/questions/2127797/significance-of-pthread-flag-when-compiling
 threads: threads.c common.h common_threads.h
 	gcc -o threads.o threads.c -Wall -pthread
 
