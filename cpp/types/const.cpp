@@ -29,6 +29,6 @@ int main()
     }
     const int *p2 = &ci;
     const int *const p3 = &ci; // p2, p3 same low-level const
-    p2 = p3;                   // ok, in general, can convernt non-const to const vut not the other way round
+    p2 = p3;                   // ok, in general, can convernt non-const to const but not the other way round
     return *curErr;            // echo $? to check return code
 }
