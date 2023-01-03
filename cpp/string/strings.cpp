@@ -1,8 +1,18 @@
 #include <iostream>
+#include <vector>
 #include <string>
 #include <cctype>
 
-using std::string, std::cin, std::cout, std::endl;
+using std::string, std::cin, std::cout, std::endl, std::vector;
+
+void capFirst(string &s) // must pass in mutable type, otherwise the passed in copy is changed, not the original
+{
+    if (s.begin() != s.end())
+    {
+        auto it = s.begin();
+        *it = toupper(*it);
+    }
+}
 
 int main()
 {
@@ -20,7 +30,7 @@ int main()
         if (!s2.empty() && s2.size() < 10) // white space considered empty
             cout << s2 << endl;
     auto s2_len = s2.size();
-    cout << std::boolalpha << (s2_len < -1) << endl; // compare int with unsigned
+    cout << "unsigned less than negative: " << std::boolalpha << (s2_len < -1) << endl; // compare int with unsigned
 
     s3[2] = 'L'; // [] subscript operator
     cout << s3 << endl;
@@ -33,4 +43,14 @@ int main()
     for (auto &c : s5)
         c = toupper(c);
     cout << s5 << endl;
+    string &s6 = s3;
+    cout << "before capFirst: " << s6 << endl;
+    capFirst(s3);
+    cout << "after capFirst s6: " << s6 << endl;
+    cout << "after capFirst s3: " << s3 << endl;
+
+    vector<string> text{"line1: w ", "line2", "", "line4; not empty"};
+    for (auto it = text.cbegin(); it != text.cend(); ++it)
+        if (!it->empty()) // it->empty() same to (*it).empty()
+            cout << *it << endl;
 }

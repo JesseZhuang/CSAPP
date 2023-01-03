@@ -20,7 +20,7 @@ int main()
     cout << svec.size() << endl;
     string words;
     if (svec.size() > 0)
-        for (auto s : svec)
+        for (auto s : svec) // add or remove elements not allowed in for loop or iteration
         {
             words += s;
             words += ",";
