@@ -1,3 +1,2 @@
-helloArgs:
-	g++ -o ./helloArgs.o ./helloArgs.cpp
- 
+%: %.cpp
+	g++ --std=c++17 -o $@.o $<
