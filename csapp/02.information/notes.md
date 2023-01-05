@@ -635,7 +635,7 @@ C double|1|11|52
 
 $E = e-Bias \equiv ^u_ke_{k-1}...e_1e_0 - (2^{k-1}-1)$
 
-Bias is 127 for signle precision and 1023 for double precision.
+Bias is 127 for single precision and 1023 for double precision.
 
 Exponent range is [-126, 127] (254 discreet numbers) for single precision and [-1022,1023] for double precision. Two's complement range for 8 bits are [-128, 127].
 
@@ -662,7 +662,12 @@ $M = f$
 1. fraction field is all zeroes, represent $+\infty$  when s = 0 or $-\infty$ when s = 1. Inficity can represent results that overflow, as when we multiply two very large numbers or divide by zero.
 1. fraction field is nonzero, $NaN$, "not a number", result cannot be given as a real number or as infinity, as when computing $\sqrt{1}$ or $\infty-\infty$. In some applications represents unitiliazed data.
 
-## 2.4.3 Exampel Numbers
+## 2.4.3 Example Numbers
+
+The IEEE format was designed so that floating point numbers could be sorted using an integer sorting routine. So the trend is the same across unsigned and floating point values for the same bit representation. A minor difficulty with negative numbers as they occur in descending order and have a leading 1. This can be overcome without requiring floating-point operations for comparisions (see practice problem 2.83).
+
+**Practice Problem 2.47**
+
 
 ## 2.4.4
 
