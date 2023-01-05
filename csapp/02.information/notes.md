@@ -666,8 +666,31 @@ $M = f$
 
 The IEEE format was designed so that floating point numbers could be sorted using an integer sorting routine. So the trend is the same across unsigned and floating point values for the same bit representation. A minor difficulty with negative numbers as they occur in descending order and have a leading 1. This can be overcome without requiring floating-point operations for comparisions (see practice problem 2.83).
 
+![](./floating.point.distribution.png)
+
 **Practice Problem 2.47**
 
+skipping, not going to cache too many details in brain
+
+General properties for floating-point with k-bit exponent and n-bit fraction:
+
+1. value +0.0 bits are all zeros
+1. smallest positive denomalized value bits is 1 followed by all zeros. It has fraction (and significand) value $M=f=2^{-n}$ and exponent value $E=-2^{k-1}+2$. The numeric value is $V=2^{-n-2^{k-1}+2}$.
+1. largest denormalized value has a bit representation of exponent field of all zeros and a fraction field of all ones. Fraction (and significand) $M=f=1-2^{-n}$, exponent $E=-2^{k-1} + 2$. Numeric value is $V=(1-2^{-n}) \times 2^{-2^{k-1}+2}$, which is slightly smaller than the smallest normalized value.
+
+![](./floating.point.examples.png)
+
+**Practice Problem 2.48**
+
+As mentioned in Problem 2.6, the integer 3,510,593 has hexadecimal representa- tion 0x00359141, while the single-precision, floating-point number 3510593.0 has hexadecimal representation 0x4A564504. Derive this floating-point representation and explain the correlation between the bits of the integer and floating-point representations.
+
+```
+0000,0000,0011,0101,1001,0001,0100,0001 (decimal)
+  01 0010 1001 0101 1001 0001 0100 000100 (floating-point)
+             s...                     e
+```
+
+21 bits overlap, exp field is 1001_0100, 128+16+4-bias(127) = 21
 
 ## 2.4.4
 
