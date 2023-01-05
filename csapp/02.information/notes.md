@@ -591,7 +591,7 @@ For each of the following C expressions, either (1) argue that it is true (evalu
 
 Floating point representation encodes rational numbers of the form $x \times 2^y$, useful for computations involving very large numbers, numbers close to 0, and more generally as an approximation to real arithmetic.
 
-Institute of Electrical and Elec- tronics Engineers (IEEE) standard 754 was designed for Intel 8086 processor in 1976.
+Institute of Electrical and Electronics Engineers (IEEE) standard 754 was designed for Intel 8086 processor in 1976.
 
 ## 2.4.1 Fractional Binary Numbers
 
@@ -692,7 +692,21 @@ As mentioned in Problem 2.6, the integer 3,510,593 has hexadecimal representa- t
 
 21 bits overlap, exp field is 1001_0100, 128+16+4-bias(127) = 21
 
-## 2.4.4
+**Practice Problem 2.49**
+
+A. For a floating-point format with an n-bit fraction, give a formula for the smallest positive integer that cannot be represented exactly (because it would require an n+1-bit fraction to be exact). Assume the exponent field size k is large enough that the range of representable exponents does not provide a limitation for this problem.
+
+
+B. What is the numeric value of this integer for single-precision format (n = 23)?
+
+
+## 2.4.4 Rounding
+
+Floating-point representation has limited range and precision so the arithmetic can only approximate. The IEEE floating-point format defines four rounding modes.
+
+Round-to-even (round-to-nearest) is the default mode. Rounding toward even numbers avoids this statistical bias in most real-life situations. It will round upward about 50% of the time and round downward about 50% of the time. Round-to-even rounding can be applied to binary fractional numbers. We would round $10.11100_2$ ($2\frac78$) up to $11.00_2$(3) and $10.10100_2$ ($2\frac58$) down to $10.10_2$ ($2\frac12$), since these values are halfway between and we prefer to have the least significant bit (2 positions after the binary point) equal to zero.
+
+## 2.4.5
 
 ## 2.5 Summary
 
