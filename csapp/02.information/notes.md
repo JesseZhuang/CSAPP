@@ -611,16 +611,35 @@ $\frac{51}{16}$|11.0011|3.1875
 
 The program appximated 0.1 with 23 bits $x = 0.00011001100110011001100_2$.
 
-1. What is the binary representation of 0.1 − x?
-1. What is the approximate decimal value of 0.1 − x?
-1. The clock starts at 0 when the system is first powered up and keeps counting up from there. In this case, the system had been running for around 100 hours. What was the difference between the actual time and the time computed by the software?
-1. The system predicts where an incoming missile will appear based on its velocity and the time of the last radar detection. Given that a Scud travels at around 2000 meters per second, how far off was its prediction?
+1. What is the binary representation of 0.1 − x? $0.000000000000000000000001100[1100]...2$
+1. What is the approximate decimal value of 0.1 − x? **Comparing to binary (fraction) representation of 0.1 ($\frac{1}{10}$), this is simply $2^{-20} \times \frac{1}{10}$, which is around $9.54 \times 10^{-8}$.**
+1. The clock starts at 0 when the system is first powered up and keeps counting up from there. In this case, the system had been running for around 100 hours. What was the difference between the actual time and the time computed by the software? $9.54 \times 10^{-8} \times 100 \times 60 \times 60 \times 10 \approx 0.343$ seconds.
+1. The system predicts where an incoming missile will appear based on its velocity and the time of the last radar detection. Given that a Scud travels at around 2000 meters per second, how far off was its prediction? $2000 \times 0.343 \approx 687$ meters.
+
+**Practice Problem 2.51**
+
+We saw in Problem 2.46 that the Patriot missile software approximated 0.1 as x = $0.00011001100110011001100_2$. Suppose instead that they had used IEEE round-to-even mode to determine an approximation x′ to 0.1 with 23 bits to the right of the binary point.
+
+1. What is the binary representation of x′?
+1. What is the approximate decimal value of x′ − 0.1?
+1. How far off would the computed clock have been after 100 hours of opera- tion?
+1. How far off would the program’s prediction of the position of the Scud missile have been?
+
+Answers
+
+$x  = 0.00011001100110011001100_2$
+$x' = 0.00011001100110011001101_2$
+
+1. Looking at nonterminating sequence for $\frac{1}{10}$, we can see 2 bits to the right of the rounding position are 1. x' is $0.00011001100110011001101_2$, which is larger than 0.1.
+1. $0.0000000000000000000000000[1100]_2$, this is $2^{-22} \times \frac{1}{10}$, about $2.38 \times 10^{-8}$.
+1. $2.38 \times 10^{-8} \times 100 \times 60 \times 60 \times 10 \approx 0.086$ seconds. A factor of 4 less than the error in the Patriot system.
+1. 171 meters.
 
 ## 2.4.2 IEEE Floating-Point Representation
 
 The IEEE floating-point standard represents a number in a form $V = (−1)^s × M × 2^E$:
 
-1. The sign $s determines whether the number is negative (s = 1) or positive (s = 0), where the interpretation of the sign bit for numeric value 0 is handled as a special case.
+1. The sign bit $s$ determines whether the number is negative (s = 1) or positive (s = 0), where the interpretation of the sign bit for numeric value 0 is handled as a special case.
 1. The significand M is a fractional binary number that ranges either between 1 and 2 − ε or between 0 and 1 − ε. n-bit fraction field $frac=f_{n-1}...f_1f_0$
 1. The exponent E weights the value by a (possibly negative) power of 2. k bit exponent field $exp=e_{k-1}...e_1e_0$
 
@@ -670,7 +689,7 @@ The IEEE format was designed so that floating point numbers could be sorted usin
 
 **Practice Problem 2.47**
 
-skipping, not going to cache too many details in brain
+skipping, practice with 5 bits (k = 2, n = 2).
 
 General properties for floating-point with k-bit exponent and n-bit fraction:
 
@@ -682,23 +701,40 @@ General properties for floating-point with k-bit exponent and n-bit fraction:
 
 **Practice Problem 2.48**
 
-As mentioned in Problem 2.6, the integer 3,510,593 has hexadecimal representa- tion 0x00359141, while the single-precision, floating-point number 3510593.0 has hexadecimal representation 0x4A564504. Derive this floating-point representation and explain the correlation between the bits of the integer and floating-point representations.
+As mentioned in Problem 2.6, the integer 3,510,593 has hexadecimal representation 0x00359141, while the single-precision, floating-point number 3510593.0 has hexadecimal representation 0x4A564504. Derive this floating-point representation and explain the correlation between the bits of the integer and floating-point representations.
 
 ```
-0000,0000,0011,0101,1001,0001,0100,0001 (decimal)
+ 0    0    3    5    9    1    4    1
+0000,0000,0011,0101,1001,0001,0100,0001   (binary)
   01 0010 1001 0101 1001 0001 0100 000100 (floating-point)
-             s...                     e
+             s........................e   (matching 21 bits)
+
+0100 1010 0101 0110 0100 0101 0000 0100   (floating point)
+ 4    A    5    6    4    5    0    4
 ```
 
-21 bits overlap, exp field is 1001_0100, 128+16+4-bias(127) = 21
+Start with 0x359141 with binary $11,0101,1001,0001,0100,0001_2$, shift right 21 places gives $1.1,0101,1001,0001,0100,0001_2 \times 2^{21}$. We form the fraction field by dropping the leading 1 and adding two 0s, giving $1,0101,1001,0001,0100,000100_2$. The exponent is formed by adding bias 127 to 21 giving 148 ($1001,0100_2$).
+
+Final binary is
+
+```
+0 10010100 10101100100010100000100
+1 8        23                       (bits of sign, exp, frac)
+```
+
+128+16+4-bias(127) = 21
+
+21 bits matching, up to the most significant bit equal to 1 matching the high-order 21 bits of the fraction.
 
 **Practice Problem 2.49**
 
 A. For a floating-point format with an n-bit fraction, give a formula for the smallest positive integer that cannot be represented exactly (because it would require an n+1-bit fraction to be exact). Assume the exponent field size k is large enough that the range of representable exponents does not provide a limitation for this problem.
 
+The numner has binary representation 1, followed by n 0s, followed by 1, giving value $2^{n+1} + 1$.
 
 B. What is the numeric value of this integer for single-precision format (n = 23)?
 
+$2^{n+1} + 1 = 2^{24}+1 = 16,777,217$
 
 ## 2.4.4 Rounding
 
@@ -706,7 +742,27 @@ Floating-point representation has limited range and precision so the arithmetic 
 
 Round-to-even (round-to-nearest) is the default mode. Rounding toward even numbers avoids this statistical bias in most real-life situations. It will round upward about 50% of the time and round downward about 50% of the time. Round-to-even rounding can be applied to binary fractional numbers. We would round $10.11100_2$ ($2\frac78$) up to $11.00_2$(3) and $10.10100_2$ ($2\frac58$) down to $10.10_2$ ($2\frac12$), since these values are halfway between and we prefer to have the least significant bit (2 positions after the binary point) equal to zero.
 
-## 2.4.5
+![](./floating.point.rounding.png)
+
+**Practice Problem 2.50**
+
+Round to even (round to nearest) practice.
+
+binary before|frac before|binary after|frac after
+-|-|-|-
+$10.010_2$|$2\frac28$|$10.0_2$|$2\frac02$
+$10.011_2$|$2\frac38$|$10.1_2$|$2\frac12$
+$10.110_2$|$2\frac68$|$11.0_2$|$3\frac02$
+$11.001_2$|$3\frac18$|$11.0_2$|$3\frac02$
+
+
+**Practice Problem 2.52**
+
+skipping, practice round to even rule with 7 bits two formats.
+
+## 2.4.5 Floating-Point Operations
+
+## 2.4.6
 
 ## 2.5 Summary
 
