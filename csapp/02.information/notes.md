@@ -494,7 +494,7 @@ else // return error
 
 ### 2.3.6 Multiplying by Constants
 
-On most machines, the integer multiply instruction is fairly slow, requiring 10 or more clock cycles, whereas other integer operations—such as addition, subtraction, bit-level operations, and shifting—require only 1 clock cycle. Compilers use optimizations to replace by constant factors with combinations of shift and addition operations, e.g., rewrite `x*14` with `x<<3 + x<<2 + x<<1`, or event better `x<<4 - x<<1`. This works for unsigned and two's complement even with overflow.
+On most machines, the integer multiply instruction is fairly slow, requiring **10 or more clock cycles, whereas other integer operations—such as addition, subtraction, bit-level operations, and shifting—require only 1 clock cycle**. Compilers use optimizations to replace by constant factors with combinations of shift and addition operations, e.g., rewrite `x*14` with `x<<3 + x<<2 + x<<1`, or event better `x<<4 - x<<1`. This works for unsigned and two's complement even with overflow.
 
 **Practice Problem 2.38**
 
@@ -577,7 +577,7 @@ unsigned ux = x;
 unsigned uy = y;
 ```
 
-For each of the following C expressions, either (1) argue that it is true (evalu- ates to 1) for all values of x and y, or (2) give values of x and y for which it is false (evaluates to 0):
+For each of the following C expressions, either (1) argue that it is true (evaluates to 1) for all values of x and y, or (2) give values of x and y for which it is false (evaluates to 0):
 
 1. (x>0)||(x-1<0)
 1. (x&7)!=7||(x<<29<0)
