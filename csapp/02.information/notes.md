@@ -836,6 +836,7 @@ Assume variables x, f, and d are of type int, float, and double, respectively. T
 
 ## 2.5 Summary
 
+Both unsigned and two's complement arithmetic satisfy associativity, commutativity, and distributivity. This allows compilers to do many optimizations.
 
 <!-- References -->
 
