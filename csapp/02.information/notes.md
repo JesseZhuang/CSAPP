@@ -798,7 +798,41 @@ Also guaranteed that $a*^fa \ge 0$, as long as $a \neq NaN$. None of these monot
 
 ## 2.4.6 Floating Point in C
 
-## 2.4.6 
+Unfortunately the C standards do not require the machine to use IEEE floating point, there are no standard methods to change the rounding mode or to get special values such as -0, $+\inf$, $-\inf$, or $NaN$. Most systems provide include(.h) files and procedure libraries to provide access to these features, but the deatils vary.
+
+`long double` for many machines and compilers is equivalent to `double`, however GCC implements this data type using an 80-bit "extended precision" format for intel-compativle machines, providing a much larger range.
+
+**Practice Problem 2.53**
+
+Fact: largest finite number can be representated with double precision is around $1.8 \times 10^{308}$.
+
+In general, it is better to use library macro. The code below seems to work on a variety of machines, however.
+
+```c
+#define POS_INFINITY 1e400 // assumes overflows to inf
+#define NEG_INFINITY (-POS_INFINITY)
+#defien NEG_ZERO (-1.0/POS_INFINITY)
+```
+
+Casting
+
+- int to float, cannot overflow, but may be rounded
+- int/float to double, exact numeric value can be preserved
+- double to float, can over flow to +inf or -inf; may be rounded
+- float/double to int, rounded toward zero. May overflow. C standards do not specify a fixed result for this case. Intel compatible microprocessors designate the bit pattern TMin 10...00 as an integer indefinite value. `(int) +1e10` yields `-21483648`, generating a negative value from a positive one.
+
+**Practice Problem 2.54**
+
+Assume variables x, f, and d are of type int, float, and double, respectively. Their values are arbitrary, except that neither f nor d equals +∞, −∞, or NaN. For each of the following C expressions, either argue that it will always be true (i.e., evaluate to 1) or give a value for the variables such that it is not true (i.e., evaluates to 0).
+
+1. x == (int)(double) x, yes for all, double has greater precision and range
+1. x == (int)(float) x, No, e.g., for TMax
+1. d==(double)(float)d, No, e.g., for 1e40, +inf on right
+1. f == (float)(double) f, Yes
+1. f==-(-f), Yes
+1. 1.0/2 == 1/2.0, Yes, cast to floating point before division
+1. d*d >= 0.0, Yes, may overflow to +inf
+1. (f+d)-f == d, No, e.g., f is 1.0e20 and d is 1.0, left hand side evaluates to 0.0, right hand side is 1.0. Rounding.
 
 ## 2.5 Summary
 
