@@ -762,9 +762,43 @@ skipping, practice round to even rule with 7 bits two formats.
 
 ## 2.4.5 Floating-Point Operations
 
+With some operation $\odot$ defined over real numbers, the computation should yield Round($x\odot y$). In practice, there are clever tricks floating-point unit designers use to avoid the exact computation, since only need to be sufficiently precise to guarantee a correctly rounded result.
 
+When one of the arguments is special such as -0, $\inf$, or NaN, the standard attempt to be reasonable, e.g., 1/-0 yields $-\inf$, while 1/+0 yields $+\inf$.
 
-## 2.4.6
+IEEE standard's method of floating point operations is independent of any hardware or software realization.
+
+Integer addition including unsigned and two's complement forms an abelian group, which applies to real numbers as well. But we must consider the effect of rounding. The operation is commutative but not associative
+
+- (3.14+1e10)-1e10 evaluates to 0.0, 3.14 is lost due to rounding
+- 3.14+(1e10-1e10) evaluates to 3.14
+
+As with an abelian group, most values have inverses, i.e., $x+^f-x = 0$. The exceptions are infinities ($+\inf-\inf = NaN$), and NaN's ($NaN + ^fx = NaN$ for any x).
+
+The lack of associativity is the most important group property lacking and has important implications for scientific programmers and compiler writers. Even such a seemingly simple task as coding to determine whether two lines intersect in 3D space can be a major challenge.
+
+Floating point addition satisfies the following monotonicity property: if $a\ge b$ then $x+a \ge x+b$ except NaN. This is not obeyed by unsigned or two's complement.
+
+Floating point multiplication also obeys many of the properties normally associates with multiplication. The operation is closed under multiplication (although possibly yielding infinity or NaN). It is commutative with 1.0 as a multiplicative identity. It is not associative
+
+- (1e20*1e20)\*1e-20 is $+\inf$
+- 1e20*(1e20)\*1e-20) is 1e20
+
+Multiplication does not distribute over addition
+
+- 1e20*(1e20 - 1e20) is 0.0
+- 1e20*1e20 - 1e20\*1e20 is NaN
+
+It satisfies the following monotonicity properties for any values other than Nan:
+
+- $a\ge b$ and $c\ge 0 \implies a * ^fc \ge b* ^fc$
+- $a\ge b$ and $c\le 0 \implies a * ^fc \le b* ^fc$
+
+Also guaranteed that $a*^fa \ge 0$, as long as $a \neq NaN$. None of these monotonicity properties hold for unsigned and two's complement.
+
+## 2.4.6 Floating Point in C
+
+## 2.4.6 
 
 ## 2.5 Summary
 
