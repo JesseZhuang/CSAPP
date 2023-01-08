@@ -579,13 +579,13 @@ unsigned uy = y;
 
 For each of the following C expressions, either (1) argue that it is true (evaluates to 1) for all values of x and y, or (2) give values of x and y for which it is false (evaluates to 0):
 
-1. (x>0)||(x-1<0)
-1. (x&7)!=7||(x<<29<0)
-1. (x*x)>=0
-1. x<0||-x<=0
-1. x>0||-x>=0
-1. x+y == uy+ux
-1. x*~y + uy*ux == -x
+1. (x>0)||(x-1<0), False for $TMin_{32}$, x-1 overflows to $TMax_{32}$. 0x8000_0000 - 1 == 0x7fff_7fff.
+1. (x&7)!=7||(x<<29<0), True. if (x&7) != 7 is false, second bit $x_2$ equal to 1. shift 29 left, $x_2$ becomes sign bit.
+1. (x\*x)>=0, False, when x is 65535 (0xffff), x\*x is -131071 (0xfffe0001); $TMin_{32}$ * (-1) == $TMin_{32}$.
+1. x<0||-x<=0, True.
+1. x>0||-x>=0, False, $TMin_{32}$ both x and -x are negative.
+1. x+y == uy+ux True, two's complement and unsigned addition have the same bit-level behavior, and they are commutative.
+1. x*~y + uy\*ux == -x, True, ~y equals -y-1, uy\*ux equals x\*y, thus left hand side is equivalent to x\*-y-x+x*y == -x. 
 
 ## 2.4 Floating Point
 
@@ -761,6 +761,8 @@ $11.001_2$|$3\frac18$|$11.0_2$|$3\frac02$
 skipping, practice round to even rule with 7 bits two formats.
 
 ## 2.4.5 Floating-Point Operations
+
+
 
 ## 2.4.6
 
