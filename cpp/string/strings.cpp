@@ -6,7 +6,7 @@
 using std::string, std::cin, std::cout, std::endl, std::vector;
 
 void capFirst(string &s) // must pass in mutable type, otherwise the passed in copy is changed, not the original
-{
+{                        // must declare before main
     if (s.begin() != s.end())
     {
         auto it = s.begin();
