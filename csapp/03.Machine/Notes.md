@@ -50,4 +50,12 @@ Assembly code is close to machine code. Its main feature is a more readable text
 1. condition code registers for `if` and `while` statements
 1. floating-point registers
 
-### 3.2.2
+Assembly code makes no distinctions between signed and unsigned integers, between different type of pointers, or even between pointers and integers.
+
+A typical program will only have access to a few megabytes. The OS manages the virtual address space, translating virtual into actual processor memory.
+
+### 3.2.2 Code Examples
+
+
+
+### 3.2.3
