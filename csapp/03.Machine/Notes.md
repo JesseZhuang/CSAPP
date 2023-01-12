@@ -56,6 +56,95 @@ A typical program will only have access to a few megabytes. The OS manages the v
 
 ### 3.2.2 Code Examples
 
+See [code.c](../code/data/code.c).
 
+```bash
+gcc -O1 -S code1.c # generating aseembly file code.s
+gcc -O1 -c code.c # compile and assemble the code
+```
+
+Assembly code in book: all info about local variable names or data types were stripped away. Still see a reference to the global var `accum`, since the compiler has not determined where in memory this will be stored.
+
+```asm
+sum:
+  pushl   %ebp
+  movl    %esp, %ebp
+  movl    12(%ebp), %eax
+  addl    8(%ebp), %eax
+  addl    %eax, accum
+  popl    %ebp
+  ret
+```
+
+```bash
+$ gcc --version
+Apple clang version 14.0.0 (clang-1400.0.29.202)
+Target: x86_64-apple-darwin21.6.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+```
+
+code1.s on mac with above gcc version:
+
+```asm
+	.section	__TEXT,__text,regular,pure_instructions
+	.build_version macos, 12, 0	sdk_version 13, 1
+	.globl	_sum                            ## -- Begin function sum
+	.p2align	4, 0x90
+_sum:                                   ## @sum
+	.cfi_startproc
+## %bb.0:
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register %rbp
+	movl	%edi, %eax
+	addl	%esi, %eax
+	addl	%eax, _accum(%rip)
+	popq	%rbp
+	retq
+	.cfi_endproc
+                                        ## -- End function
+	.globl	_accum                          ## @accum
+.zerofill __DATA,__common,_accum,4,2
+.subsections_via_symbols
+```
+
+```
+$ objdump -d code.o
+
+code.o: file format mach-o 64-bit x86-64
+
+Disassembly of section __TEXT,__text:
+
+0000000000000000 <_sum>:
+       0: 55                            pushq   %rbp
+       1: 48 89 e5                      movq    %rsp, %rbp
+       4: 89 f8                         movl    %edi, %eax
+       6: 01 f0                         addl    %esi, %eax
+       8: 01 05 00 00 00 00             addl    %eax, (%rip)            ## 0xe <_sum+0xe>
+       e: 5d                            popq    %rbp
+       f: c3                            retq
+
+0000000000000010 <_p>:
+      10: 55                            pushq   %rbp
+      11: 48 89 e5                      movq    %rsp, %rbp
+      14: 89 fe                         movl    %edi, %esi
+      16: e8 00 00 00 00                callq   0x1b <_p+0xb>
+      1b: 5d                            popq    %rbp
+      1c: c3                            retq
+      1d: 0f 1f 00                      nopl    (%rax)
+
+0000000000000020 <_main>:
+      20: 55                            pushq   %rbp
+      21: 48 89 e5                      movq    %rsp, %rbp
+      24: 31 c0                         xorl    %eax, %eax
+      26: 5d                            popq    %rbp
+      27: c3                            retq
+```
+
+- IA32 instructions is 1-15 bytes. Designed such that commonly used instructions and those with fewer operands require a smaller numner of bytes than do less common ones or ones with more operands.
+- 
 
 ### 3.2.3

@@ -14,15 +14,16 @@ BINS := $(SRCS:%.c=%) # substitution reference, foo.c => foo
 all: ${BINS}
 
 # This rule will be called for every value in ${BINS}
+# $< is patterned to match prerequisites and $@ matches the target
+# https://www.gnu.org/software/make/manual/html_node/Echoing.html
 %: %.o # foo: foo.o
-        @echo "Checking.."
-		# $< is patterned to match prerequisites and $@ matches the target
-        ${CC} ${LINKERFLAG} $< -o $@ # gcc -lm foo.o -o foo
+	@echo "Checking.."
+	${CC} ${LINKERFLAG} $< -o $@ # gcc -lm foo.o -o foo
 
 %.o: %.c
-        @echo "Creating object.."
-        ${CC} -c $< # gcc -c foo.c
+	@echo "Creating object.."
+	${CC} -c $< # gcc -c foo.c
 
 clean:
-        @echo "Cleaning up..."
-        rm -rvf *.o ${BINS}
+	@echo "Cleaning up..."
+	rm -rvf *.o ${BINS}
