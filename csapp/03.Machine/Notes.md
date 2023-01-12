@@ -145,6 +145,8 @@ Disassembly of section __TEXT,__text:
 ```
 
 - IA32 instructions is 1-15 bytes. Designed such that commonly used instructions and those with fewer operands require a smaller numner of bytes than do less common ones or ones with more operands.
-- 
+- from a given starting position, unique decoding of bytes into machine instructions. e.g., only `pushl %ebp` can start with byte value 55.
+- disassembler determines assembly code purely based on the byte sequences in machine code, no need source code or assembly code
+- disassembler sometimes omits the suffix `l`, e.g., in book, `mov` instead of `movl`. the suffixes are size designators
 
 ### 3.2.3

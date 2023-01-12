@@ -28,7 +28,7 @@ pushl   %ebp # push register ebp content to stack
 https://stackoverflow.com/questions/3707517/make-file-echo-displaying-path-string
 
 ```bash
-$ ./stack_heap.o 
+$ ./stack_heap.o # stack above heap, stack growing down, heap growing up
 depth 10, stack at 0x7ff7b759a60b, heap at 0x7f92a87059e0
 depth  9, stack at 0x7ff7b759a5eb, heap at 0x7f92a87059f0
 depth  8, stack at 0x7ff7b759a5cb, heap at 0x7f92a8705a00
