@@ -43,3 +43,39 @@ depth  0, stack at 0x7ff7b759a4cb, heap at 0x7f92a8705a80
 $ ulimit -s
 8192
 ```
+
+## double pointer linked list
+
+- https://stackoverflow.com/questions/12914917/using-pointers-to-remove-item-from-singly-linked-list
+- https://leetcode.com/problems/remove-nth-node-from-end-of-list/discuss/8812/My-short-C++-solution/498613
+
+See [c_file](./c/double_pointer.c).
+
+The idea is similar to add a dummy node. In Java, `dummy` is a whole new `Node`, in c/c++, `pp` is just another pointer points to a pointer of type `Node**`.
+
+```java
+Node dummy = new Node();
+dummy.next = head;
+
+// to move along
+dummy = dummy.next;
+
+// delete dummy.next, dummy.next must be non-null
+dummy.next = dummy.next.next;
+// typically dummy is kept to point to the Node before head
+// can be used as cur to move along and stop before the non-null node to be deleted
+```
+equivalent to 
+```c
+int **pp = &head; // head type is node*, pp is node**
+// pp is a pointer to head, *pp is head, *head and **pp is the first node
+
+// to move along, assigning new value to double pointer node**
+pp = &((*pp)->next); // or pp = &((**pp).next)
+// (*pp)->next and (**pp).next type is node*
+
+// *pp must be non-null
+*pp = (*pp)->next; // equivalent to dummy.next = dummy.next.next;
+*pp = (**pp).next; // this might be easier to understand
+// change where (*pp) is pointing, but pp is still pointing at the same
+```
