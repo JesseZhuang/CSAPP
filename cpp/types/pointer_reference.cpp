@@ -1,5 +1,5 @@
 #include <iostream>
-#include <cstdlib> # NULL
+#include <cstdlib> // NULL
 
 int main()
 {
@@ -36,4 +36,14 @@ int main()
     int *&r2 = p4; // r is a reference to pointer p4, reference is not an object, cannot have pointer to a reference
     *r2 = 24;
     std::cout << "changed value through pointer reference: " << *r2 << std::endl;
+    int array[] = {1, 2, 3, 4, 5};
+    for (int i = 0; i < 6; i++)
+        std::cout << "i: " << i << ", array pointer: "
+                  << array + i << " value: " << *(array + i) << std::endl;
+    // i: 0, array pointer: 0x7ff7b7e4e620 value: 1
+    // i: 1, array pointer: 0x7ff7b7e4e624 value: 2
+    // i: 2, array pointer: 0x7ff7b7e4e628 value: 3
+    // i: 3, array pointer: 0x7ff7b7e4e62c value: 4
+    // i: 4, array pointer: 0x7ff7b7e4e630 value: 5
+    // i: 5, array pointer: 0x7ff7b7e4e634 value: 0
 }

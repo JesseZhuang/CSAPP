@@ -73,7 +73,7 @@ void remove_from_list(int val, node *head)
         // double pointer p address: 0x7f8e37705a28, now points to the next pointer in node(value 5)
         // *p address: 0x7f8e37705a10, address of node(value 4), same as the address of the int in there
 
-        // node address decrement by 16: 0x7f8e37705a20 -> 0x7f8e37705a10
+        // node address decrement by 16 bytes: 0x7f8e37705a20 -> 0x7f8e37705a10, padding of 4 bytes
     }
 
     printf("before deleting\n");
@@ -98,6 +98,8 @@ int main(int argc, char **argv)
     node *head;
 
     head = create_list();
+    printf("size of head: %lu\n", sizeof(head)); // 8 bytes
+    printf("size of node*: %lu\n", sizeof(node *));
     print_list(head); // 5 4 3 2 1
 
     remove_from_list(3, head);
