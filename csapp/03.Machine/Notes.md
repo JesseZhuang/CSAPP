@@ -60,7 +60,7 @@ See [code.c](../code/data/code.c).
 
 ```bash
 gcc -O1 -S code1.c # generating aseembly file code.s
-gcc -O1 -c code.c # compile and assemble the code
+gcc -O1 -c code1.c # compile and assemble the code
 ```
 
 Assembly code in book: all info about local variable names or data types were stripped away. Still see a reference to the global var `accum`, since the compiler has not determined where in memory this will be stored.
@@ -112,9 +112,9 @@ _sum:                                   ## @sum
 ```
 
 ```
-$ objdump -d code.o
+$ objdump -d code1.o
 
-code.o: file format mach-o 64-bit x86-64
+code1.o:        file format mach-o 64-bit x86-64
 
 Disassembly of section __TEXT,__text:
 
@@ -126,22 +126,6 @@ Disassembly of section __TEXT,__text:
        8: 01 05 00 00 00 00             addl    %eax, (%rip)            ## 0xe <_sum+0xe>
        e: 5d                            popq    %rbp
        f: c3                            retq
-
-0000000000000010 <_p>:
-      10: 55                            pushq   %rbp
-      11: 48 89 e5                      movq    %rsp, %rbp
-      14: 89 fe                         movl    %edi, %esi
-      16: e8 00 00 00 00                callq   0x1b <_p+0xb>
-      1b: 5d                            popq    %rbp
-      1c: c3                            retq
-      1d: 0f 1f 00                      nopl    (%rax)
-
-0000000000000020 <_main>:
-      20: 55                            pushq   %rbp
-      21: 48 89 e5                      movq    %rsp, %rbp
-      24: 31 c0                         xorl    %eax, %eax
-      26: 5d                            popq    %rbp
-      27: c3                            retq
 ```
 
 - IA32 instructions is 1-15 bytes. Designed such that commonly used instructions and those with fewer operands require a smaller numner of bytes than do less common ones or ones with more operands.
@@ -149,4 +133,68 @@ Disassembly of section __TEXT,__text:
 - disassembler determines assembly code purely based on the byte sequences in machine code, no need source code or assembly code
 - disassembler sometimes omits the suffix `l`, e.g., in book, `mov` instead of `movl`. the suffixes are size designators
 
-### 3.2.3
+running a linker on the set of object-code files, one of which must contain a function `main`
+
+```bash
+$ gcc -O1 -o code1_exe.o code1.o code1_main.c
+$ objdump -d code1_exe.o
+
+code1_exe.o:    file format mach-o 64-bit x86-64
+
+Disassembly of section __TEXT,__text:
+
+0000000100003f90 <_sum>:
+100003f90: 55                           pushq   %rbp
+100003f91: 48 89 e5                     movq    %rsp, %rbp
+100003f94: 89 f8                        movl    %edi, %eax
+100003f96: 01 f0                        addl    %esi, %eax
+100003f98: 01 05 62 00 00 00            addl    %eax, 98(%rip)          ## 0x100004000 <_accum>
+100003f9e: 5d                           popq    %rbp
+100003f9f: c3                           retq
+
+0000000100003fa0 <_main>:
+100003fa0: 55                           pushq   %rbp
+100003fa1: 48 89 e5                     movq    %rsp, %rbp
+100003fa4: bf 01 00 00 00               movl    $1, %edi
+100003fa9: be 03 00 00 00               movl    $3, %esi
+100003fae: e8 dd ff ff ff               callq   0x100003f90 <_sum>
+100003fb3: 5d                           popq    %rbp
+100003fb4: c3                           retq
+```
+
+almost identical to the disassembly of `code1.o`. the linker shifted location of code to a different range of addresses. linker has determined location to save the global variable `accum` (see second `addl` line). 
+
+### 3.2.3 Notes on Formatting
+
+```bash
+$ gcc -O1 -S simple.c
+
+# look at simple.s
+    pushq	%rbp                    # save frame pointer
+	.cfi_def_cfa_offset 16          # directives to guide assembler and linker
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp              # create new frame pointer
+	.cfi_def_cfa_register %rbp
+	movl	%esi, %eax              # retrieve xp
+	addl	(%rdi), %eax            # add xp to get t
+	movl	%eax, (%rdi)            # store t at xp
+	popq	%rbp                    # restore frame pointer
+	retq                            # return
+	
+$ gcc -O1 -S -masm=intel simple.c
+# intel format
+    push	rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset rbp, -16
+	mov	rbp, rsp
+	.cfi_def_cfa_register rbp
+	mov	eax, esi
+	add	eax, dword ptr [rdi]
+	mov	dword ptr [rdi], eax
+	pop	rbp
+	ret
+```
+
+## Data Formats
+
+### 3.3.1

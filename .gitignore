@@ -57,3 +57,10 @@ dkms.conf
 # CMake build dir
 build/
 cmake/
+
+# jetbrains
+.idea/
+cmake-build-debug/
+
+# assembly
+*.s
