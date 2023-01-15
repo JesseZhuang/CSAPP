@@ -1,11 +1,20 @@
 #include <iostream>
 #include <cstdlib> // NULL
 
-int main()
-{
+void reference_swap() {
+    int a = 1, b = 2;
+    int &ra = a, &rb = b;
+    std::cout << "before swap ra: " << ra << " rb: " << rb << std::endl;
+    std::cout << "before swap a: " << a << " b: " << b << std::endl;
+    std::swap(ra, rb); // ra still references a after swapping
+    std::cout << "after swap ra: " << ra << " rb: " << rb << std::endl;
+    std::cout << "after swap a: " << a << " b: " << b << std::endl;
+}
+
+int main() {
     // 3 ways to a null pointer
     int *p1 = 0;
-    int *p2 = NULL; // cstdlib preprocessor, mordern cpp should use nullptr
+    int *p2 = NULL; // cstdlib preprocessor, modern cpp should use nullptr
     int *p3 = nullptr;
     /*
      * Pointer states:
@@ -15,10 +24,11 @@ int main()
      * 4, invalid pointer
      */
     int i = 23;
-    int &r = i; // r is a reference bound to i and cannot be changed to refrence other objects
+    int &r = i; // r is a reference bound to i and cannot be changed to reference other objects
+    reference_swap();
     p2 = &i;    // p2 was null pointer, now hold address of i
-    int *p4;    // uinitialized pointer
-    p4 = p2;    // p4 now hold same adderss as p2
+    int *p4;    // uninitialized pointer
+    p4 = p2;    // p4 now hold same adders as p2
     std::cout << "pointers are equal when they point to same address: " << (p4 == p2) << std::endl;
     std::cout << "pointers are not equal when they point to different address: " << (p4 == p1) << std::endl;
     p2 = 0; // p2 now addresses no object
