@@ -189,12 +189,16 @@ $ gcc -O1 -S -masm=intel simple.c
 	mov	rbp, rsp
 	.cfi_def_cfa_register rbp
 	mov	eax, esi
-	add	eax, dword ptr [rdi]
+	add	eax, dword ptr [rdi] # 16-bit word, 32-bit double words, 64-bit quad words
 	mov	dword ptr [rdi], eax
 	pop	rbp
 	ret
 ```
 
-## Data Formats
+## 3.3 Data Formats
 
-### 3.3.1
+GCC assembly suffix: `movb` move byte, `movw` move word, and `movl` move double word. Note suffix `l` is used for both 4-byte int and 9-byte double. This causes no ambiguity since floating point involves an entirely different set of instructions and registers.
+
+## 3.4 Accessing Information
+
+### 3.4.1
