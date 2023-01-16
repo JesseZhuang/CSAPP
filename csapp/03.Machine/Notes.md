@@ -201,4 +201,8 @@ GCC assembly suffix: `movb` move byte, `movw` move word, and `movl` move double 
 
 ## 3.4 Accessing Information
 
+![](./ia32.registers.png)
+
+### 3.4.1 Operand Specifiers
+
 ### 3.4.1
