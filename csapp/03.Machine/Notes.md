@@ -18,7 +18,7 @@ The extension of IA32 to 64 bits, x86-64, was originally developed by Advanced M
 
 ![](./moores.law.png)
 
-Core i7: (2008, 781 M transistors). Incorporated both hyperthreading and multi-core, with the initial version supporting two executing programs on each core and up to four cores on each chip.
+Core i7: (2008, 781 M transistors). Incorporated both hyper-threading and multicore, with the initial version supporting two executing programs on each core and up to four cores on each chip.
 
 Linux uses a memory model called flat addressing, where the entire memory space is viewed as a large array of bytes.
 
@@ -128,7 +128,7 @@ Disassembly of section __TEXT,__text:
        f: c3                            retq
 ```
 
-- IA32 instructions is 1-15 bytes. Designed such that commonly used instructions and those with fewer operands require a smaller numner of bytes than do less common ones or ones with more operands.
+- IA32 instructions is 1-15 bytes. Designed such that commonly used instructions and those with fewer operands require a smaller number of bytes than do less common ones or ones with more operands.
 - from a given starting position, unique decoding of bytes into machine instructions. e.g., only `pushl %ebp` can start with byte value 55.
 - disassembler determines assembly code purely based on the byte sequences in machine code, no need source code or assembly code
 - disassembler sometimes omits the suffix `l`, e.g., in book, `mov` instead of `movl`. the suffixes are size designators
