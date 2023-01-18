@@ -14,8 +14,8 @@ void pointer_iterate() {
     int a[] = {1, 2, 3};
     int *end = &a[3];
     int *end2 = *(&a + 1);
-    std::cout << end << " " << end2 << std::endl;
-    for (int *pa = a; pa != end; ++pa) std::cout << *pa << " ";
+    std::cout << end << " " << end2 << std::endl; //0x7ff7b92a0928 0x7ff7b92a0928
+    for (int *pa = a; pa != end; ++pa) std::cout << *pa << " "; // 1 2 3
     std::cout << std::endl;
 }
 
