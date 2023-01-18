@@ -201,11 +201,11 @@ GCC assembly suffix: `movb` move byte, `movw` move word, and `movl` move double 
 
 ## 3.4 Accessing Information
 
-![](./ia32.registers.png)
+![](./3.2.ia32.registers.png)
 
 ### 3.4.1 Operand Specifiers
 
-![](./instruction.operand.forms.png)
+![](./3.3.instruction.operand.forms.png)
 
 **Practice Problem 3.1**
 
@@ -234,6 +234,41 @@ Fill in table below:
 | %eax    | 0x100 | content in register  |$E_a$|
 | 0x104   | 0xAB  | absolute address     |Imm|
 | $0x108  | 0x108 | immediate (constant) |$Imm|
+| (%eax)|0xFF|deref address in register|($E_a$)
+| 4(%eax)|0xAB|deref displacement: 4+0x100|Imm($E_b$)
+| 9(%eax, %edx)|0x11|deref indexed: 9+0x100+0x3|Imm($E_b$, $E_i$)
+| 260(%ecx, %edx)|0x13|deref indexed: 260+0x1+0x3 == 0x108|Imm($E_b$, $E_i$)
+| 0xFC(,%ecx, 4)|0xFF|deref scaled: 0xFC+0x1 * 4 == 0x100|Imm(,$E_i$, $s$)
+| (%eax, %edx,4)|0x11|deref scaled: 0x100+0x3*4|($E_b$, $E_i$, s)
+
+### 3.4.2 Data Movement Instructions
+
+IA32 imposes the restriction that a move instruction cannot have both operands refer to memory locations.
+
+![](./3.4.data.move.instructions.png)
+
+With IA32, the program stack is stored in some region of memory.
+
+![](3.5.stack.op.png)
+
+```asm
+pushl %ebp # equivalent to 2 instructions below, machine code just 1 byte, below 2 is 6 bytes
+subl $4,%esp # decrement stack pointer
+movl %ebp,(%esp) # store %ebp on stack
+```
+
+Stack is contained in the same memory as the program code and other forms of program data. `movl 4(%esp),%edx` will copy the second double word from the stack to register %edx.
+
+**Practice Problem 3.2**
+
+For each of the following lines of assembly language, determine the appropriate instruction suffix based on the operands. (For example, mov can be rewritten as movb, movw, or movl.)
 
 
-### 3.4.1
+
+**Practice Problem 3.3**
+
+Each of the following lines of code generates an error message when we invoke the assembler. Explain what is wrong with each line.
+
+### 3.4.3
+
+### 3.4.4
