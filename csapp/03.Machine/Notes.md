@@ -205,4 +205,35 @@ GCC assembly suffix: `movb` move byte, `movw` move word, and `movl` move double 
 
 ### 3.4.1 Operand Specifiers
 
+![](./instruction.operand.forms.png)
+
+**Practice Problem 3.1**
+
+Solution p343.
+
+With following values,
+
+| Register | Value |
+|----------|-------|
+| %edx     | 0x3   |
+| 0x10C    | 0x11  |
+| %eax     | 0x100 |
+| %ecx     | 0x1   |
+
+
+| Address | Value |
+|---------|-------|
+| 0x100   | 0xFF  |  
+| 0x104   | 0xAB  |
+| 0x108   | 0x13  | 
+
+Fill in table below:
+
+| Operand | Value | Note                 |Form
+|---------|-------|----------------------|-|
+| %eax    | 0x100 | content in register  |$E_a$|
+| 0x104   | 0xAB  | absolute address     |Imm|
+| $0x108  | 0x108 | immediate (constant) |$Imm|
+
+
 ### 3.4.1
