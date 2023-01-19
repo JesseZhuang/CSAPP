@@ -12,3 +12,15 @@ bool ValidAnagram::isAnagram(std::string s, std::string t) {
     for (auto count: counts) if (count.second != 0) return false;
     return true;
 }
+
+// 4ms, 7.4Mb.
+bool ValidAnagram::isAnagramArray(std::string s, std::string t) {
+    if (s.size() != t.size()) return false;
+    int counts[26] = {}; // default init to 0
+    for (int i = 0; i < s.size(); ++i) {
+        counts[s[i]-'a']++;
+        counts[t[i]-'a']--;
+    }
+    for (auto count:counts) if (count != 0) return false;
+    return true;
+}

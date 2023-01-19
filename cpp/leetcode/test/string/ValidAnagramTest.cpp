@@ -6,4 +6,5 @@ BOOST_AUTO_TEST_CASE(lc_solution_test) {
     ValidAnagram va;
     BOOST_CHECK_EQUAL(true, va.isAnagram("anagram", "nagaram"));
     BOOST_CHECK_EQUAL(false, va.isAnagram("rat", "car"));
+    BOOST_CHECK_EQUAL(false, va.isAnagramArray("rat", "car"));
 }
