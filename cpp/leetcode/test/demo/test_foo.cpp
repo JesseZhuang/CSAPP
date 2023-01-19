@@ -3,7 +3,7 @@
 #endif
 
 #include <boost/test/unit_test.hpp>
-#include "../src/shared/Foo.hpp"
+#include "shared/Foo.hpp"
 
 
 BOOST_AUTO_TEST_SUITE(foo_suite)
@@ -16,3 +16,6 @@ BOOST_AUTO_TEST_SUITE(foo_suite)
     }
 
 BOOST_AUTO_TEST_SUITE_END()
+// with Clion
+// /Volumes/workplace/projects/CSAPP/cpp/leetcode/cmake-build-debug/test/leet_code_unit_tests
+// --run_test=foo_suite --logger=HRF,all --color_output=false --report_format=HRF --show_progress=no

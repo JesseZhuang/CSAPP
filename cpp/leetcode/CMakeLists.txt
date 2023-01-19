@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # Definitions
-set(PROJECT_NAME_STR cmake_boost_demo)
+set(PROJECT_NAME_STR leet_code)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 
 # Project title and define versioning
