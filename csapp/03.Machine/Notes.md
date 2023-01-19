@@ -263,11 +263,31 @@ Stack is contained in the same memory as the program code and other forms of pro
 
 For each of the following lines of assembly language, determine the appropriate instruction suffix based on the operands. (For example, mov can be rewritten as movb, movw, or movl.)
 
+Disassembler does not have suffix. Memory references in IA32 are always given with double-word registers, such as %eax, even if the operaand is a byte or single word.
+
+instruction|suffix|note
+-|-|-
+%eax,(%esp)|movl|3-letter register
+(%eax),%dx|movw|suffix x/i/p
+$0xFF,%bl|movb|suffix l/h
+(%esp,%edx,4),%dh|movb|suffix l/h
+$0xFF|pushl
+%dx,(%eax)|movw
+%edi|popl
 
 
 **Practice Problem 3.3**
 
 Each of the following lines of code generates an error message when we invoke the assembler. Explain what is wrong with each line.
+
+instruction|error
+-|-
+movb $0xF,(%bl)|cannot use %bl as address register, byte
+movl %ax,(%esp)|mismatch between instruction suffix and register id
+movw (%eax),4(%esp)|cannot have both source and destination be memory references
+movb %ah,%sh|no register named %sh
+movl %eax,%dx|destination incorrect size
+movb %si,8(%ebp)|mismatch between instruction suffix and register id
 
 ### 3.4.3
 
