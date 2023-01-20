@@ -1,4 +1,4 @@
-## Virtualizing cpu
+## 2.1 Virtualizing cpu
 
 ```shell
 # note, can use make file
@@ -12,7 +12,7 @@ $ps -eaf | grep cpu.o
 
 `./cpu.o A & ; ./cpu.o B & ; ./cpu.o C` does not work on mac: `-bash: syntax error near unexpected token `;'`.
 
-## Virtualizing memory
+## 2.2 Virtualizing memory
 
 ```shell
 $gcc -o mem.o mem.c -Wall
@@ -40,7 +40,8 @@ default. To turn it off:
 From [stackoverflow](http://stackoverflow.com/questions/23897963/documented-way-to-disable-aslr-on-os-x)
 
 Just compile/link as follows:
-    gcc -o mem mem.c -Wall -Wl,-no_pie
+
+`gcc -o mem mem.c -Wall -Wl,-no_pie`
 
 ### Linux
 
@@ -55,7 +56,7 @@ Under Linux you can disable ASLR, without using a debugger, in (at least)  two w
   whole system, which is something you probably don't want. I use this
   one only inside VMs.
 
-## Concurrency
+## 2.3 Concurrency
 
 ```shell
 $gcc -o threads.o threads.c -Wall [-pthread]
@@ -67,7 +68,7 @@ Initial value : 0
 Final value   : 149839
 ```
 
-## Persistence
+## 2.4 Persistence
 
 ```shell
 $gcc -o io.o io.c -Wall
@@ -75,11 +76,19 @@ $io.o
 $less tempFile
 ```
 
-These system calls (`open()`, `write()`, `close()`) are routed to the part of the operating sys- tem called the file system, which then handles the requests and returns some kind of error code to the user.
+Unlike cpu and memory, the OS does not create a private, virtualized disk for each application. Rather, it is assumed that users will want to share information in files.
 
-For performance reasons, most file systems first delay such writes for a while, hoping to batch them into larger groups. To handle the problems of sys- tem crashes during writes, most file systems incorporate some kind of intricate write protocol, such as journaling or copy-on-write, carefully ordering writes to disk to ensure that if a failure occurs during the write sequence, the system can recover to reasonable state afterwards. To make different common operations efficient, file systems employ many differ- ent data structures and access methods, from simple lists to complex b- trees.
+These system calls (`open()`, `write()`, `close()`) are routed to the part of the operating system called the file system, which then handles the requests and returns some kind of error code to the user.
 
-## Design Goals
+1. where on disk this new data goes
+1. keep track of it in various structures the file system maintains
+1. issuing IO requests to the underlying storage device
+
+The OS is sometimes seen as a standard library.
+
+For performance reasons, most file systems first delay such writes for a while, hoping to batch them into larger groups. To handle the problems of system crashes during writes, most file systems incorporate some kind of intricate write protocol, such as **journaling** or **copy-on-write**, carefully ordering writes to disk to ensure that if a failure occurs during the write sequence, the system can recover to reasonable state afterwards. To make different common operations efficient, file systems employ many different data structures and access methods, from simple lists to complex b-trees.
+
+## 2.5 Design Goals
 
 Layers of abstraction: C -> assembly -> processors -> logic gates -> transistors.
 
@@ -89,7 +98,7 @@ Goals:
 - reliability, run non-stop.
 - energy efficiency, mobility.
 
-## History
+## 2.6 History
 
 Evolution path: libraries -> protection -> multiprogramming (Unix) -> Modern era: PC (DOS, Mac OS, Windows)
 

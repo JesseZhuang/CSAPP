@@ -1,4 +1,4 @@
-# 2.2 Processes
+# 4 Processes
 
 One of the most fundamental abstractions of OS is process. The definition of a process, informally, is quite simple: it is a running program. A typical system may be seemingly running tens or even hundreds of processes at the same time and provides the illusion of a nearly-endless supply of said CPUs.
 
@@ -6,7 +6,7 @@ To implement virtualization of the CPU, and to implement it well, the OS will ne
 
 On top of these mechanisms resides some of the intelligence in the OS, in the form of policies. Policies are algorithms for making some kind of decision within the OS. For example, given a number of possible programs to run on a CPU, which program should the OS run? A scheduling policy in the OS will make this decision, likely using historical information (e.g., which program has run more over the last minute?), workload knowledge (e.g., what types of programs are run), and performance metrics (e.g., is the system optimizing for interactive performance, or throughput?) to make its decision.
 
-## The Abstraction-Process
+## 4.1 The Abstraction-Process
 
 The process’s machine state
 - the memory that the process can address (called its address space)
@@ -14,7 +14,7 @@ The process’s machine state
 -  program counter (PC) (sometimes called the instruction pointer or IP) tells us which instruction is currently being executed, a stack pointer and associated frame pointer are used to manage the stack for function parameters, local variables, and return addresses.
 - Persistent storage devices. Such I/O information might include a list of the files the process currently has open.
 
-## Process API
+## 4.2 Process API
 
 - Create: any command
 - Destroy: `kill`
@@ -22,15 +22,17 @@ The process’s machine state
 - Miscellaneous control: suspend, resume
 - Status: how long, state
 
-## Process Creation
+## 4.3 Process Creation
 
-1. Load code and any static data into memory from executable on disk. Modern OS does not lazily.
+![](./4.1.loading.program.png)
+
+1. Load code and any static data into memory from executable on disk. Modern OS does this lazily. Ealier OS eagerly.
 1. Allocate stack. C programs use the stack for local variables, function parameters, and return addresses. The OS will also likely initialize the stack with arguments; specifically, it will fill in the parameters to the main() function, i.e., argc and the argv array.
 1. Allocate heap. In C programs, the heap is used for explicitly requested dynamically-allocated data; programs request such space by calling `malloc()` and free it explicitly by calling `free()`. The heap is needed for data structures such as linked lists, hash tables, trees, and other interesting data structures.
 1. Initialization tasks including IO. For example, in UNIX systems, each process by default has three open file descriptors, for standard input, output, and error.
 1. Start the program running at the entry point, namely `main()`. OS transfers control of the CPU to the newly-created process, and thus the program begins its execution.
 
-## Process States
+## 4.4 Process States
 
 1. Running: executing.
 1. Ready: A process is ready to run but for some reason the OS has chosen not to run it at this given moment.
@@ -42,7 +44,7 @@ Once a process has become blocked (e.g., by initiating an I/O operation), the OS
 
 ![](process.state.trace.png)
 
-## Data Structures
+## 4.5 Data Structures
 
 ```C
 // the registers xv6 will save and restore to stop and subsequently restart a process
@@ -84,9 +86,9 @@ This final (`ZOMBIE`) state can be useful as it allows other processes (usually 
 
 Sometimes people refer to the individual structure that stores information about a process as a Process Control Block (PCB), a fancy way of talking about a C structure that contains information about each process (process list).
 
-# 2.3 CPU API
+# 5 CPU API
 
-## The `fork()` System Call
+## 5.1 The `fork()` System Call
 
 ```shell
 $p1.o
@@ -100,7 +102,7 @@ The odd part: the process that is created is an **almost** exact copy of the cal
 
 The order of execution for the parent and child processes is not deterministic and decided by the OS scheduler.
 
-## The `wait()` System Call
+## 5.2 The `wait()` System Call
 
 ```shell
 $ os/virtualization/cpu-api/p2.o
@@ -112,7 +114,7 @@ $
 
 It can be very useful for the parent process can wait for the child with `wait()` or the more complete sibling `waitpid()`. The order is deterministic. If the parent does happen to run first, it will immediately call `wait()`; this system call won’t return until the child has run and exited.
 
-## The `exec()` System Call
+## 5.3 The `exec()` System Call
 
 ```shell
 $ os/virtualization/cpu-api/p3.o
@@ -138,7 +140,7 @@ $ cat p4.output
 
 The `fork()` system call is strange; its partner in crime, `exec()`, is not so normal either. What it does: given the name of an executable (e.g., `wc`), and some arguments (e.g., p3.c), it loads code (and static data) from that executable and overwrites its current code segment (and current static data) with it; the heap and stack and other parts of the memory space of the program are re-initialized. Then the OS simply runs that program, passing in any arguments as the argv of that process. Thus, it does not create a new process; rather, it transforms the currently running program (formerly p3) into a different running program (`wc`). After the `exec()` in the child, it is almost as if p3.c never ran; a successful call to `exec()` never returns.
 
-## Motivating the API
+## 5.4 Motivating the API
 
 The separation of `fork()` and `exec()` is essential in building a UNIX shell, because it lets the shell run code after the call to `fork()` but before the call to `exec()`; this code can alter the environment of the about-to-be-run program, and thus enables a variety of interesting features to be readily built.
 
@@ -148,18 +150,18 @@ UNIX pipes are implemented in a similar way, but with the `pipe()` system call. 
 
 The `kill()` system call is used to send signals to a process, including directives to go to sleep, die, and other useful imperatives. In fact, the entire signals subsystem provides a rich infrastructure to deliver external events to processes, including ways to receive and process those signals.
 
-# 2.4 CPU Mechanism-Limited Direct Execution
+# 6 CPU Mechanism-Limited Direct Execution
 
 The basic idea is simple: run one process for a little while, then run another one, and so forth. By time sharing the CPU in this manner, virtualization is achieved. Obtaining high performance (avoid overhead) while maintaining control is thus one of the central challenges in building an operating system.
 
-### 2.4.1. Limited Direct Execution
+## 6.1 Limited Direct Execution
 
 ![direct execution without limit](direct.execution.protocol.png)
 
 1. How can the OS make sure the program doesn’t do anything that we don’t want it to do, while still running it efficiently?
 1. How does the operating system stop it from running and switch to another process, thus implementing the time sharing we require to virtualize the CPU?
 
-### 2.4.2. Problem 1: Restricted Operations
+## 6.2 Problem 1: Restricted Operations
 
 A process must be able to perform I/O and gaining access to more resources such as CPU and memory, but without giving the process complete control over the system. How can the OS and hardware work together to do so?
 
@@ -179,7 +181,7 @@ To specify the exact system call, a system-call number is assigned to each syste
 
 ![](direct.execution.protocol.limited.png)
 
-### 2.4.3 Problem 2 Switching Between Processes
+### 6.3 Problem 2 Switching Between Processes
 
 If a process is running on the CPU, this by definition means the OS is not running and OS cannot do anything. How can the operating system regain control of the CPU?
 
@@ -240,7 +242,7 @@ Note that there are two types of register saves/restores that happen during this
 
 How long does context switch or a system call take? There is a tool called `lmbench` [MS96] that measures exactly those things, as well as a few other performance measures that might be relevant. Results have improved quite a bit over time, roughly tracking processor performance. For example, in 1996 running Linux 1.3.37 on a 200-MHz P6 CPU, system calls took roughly 4 microseconds, and a context switch roughly 6 microseconds [MS96]. Modern systems perform almost an order of magnitude better, with sub-microsecond results on systems with 2- or 3-GHz processors. It should be noted that not all operating-system actions track CPU performance. As Ousterhout observed, many OS operations are memory intensive, and memory bandwidth has not improved as dramatically as processor speed over time [O90]. Thus, depending on your workload, buying the latest and greatest processor may not speed up your OS as much as you might hope.
 
-### 2.4.4 Worried About Concurrency?
+### 6.4 Worried About Concurrency?
 
 What if?
 
@@ -257,11 +259,11 @@ Operating systems also have developed a number of sophisticated locking schemes 
 
 Specifically, reboot is useful because it moves software back to a known and likely more tested state. Reboots also reclaim stale or leaked resources (e.g., memory) which may otherwise be hard to handle. Finally, reboots are easy to automate. For all of these reasons, it is not uncommon in large-scale cluster Internet services for system management software to periodically reboot sets of machines in order to reset them and thus obtain the advantages listed above.
 
-## 2.5 Scheduling
+# 7 Scheduling
 
 Scheduling employs a series of policies (sometimes called disciplines). The origins of scheduling, in fact, predate computer systems; early approaches were taken from the field of operations management and applied to computers. This reality should be no surprise: assembly lines and many other human endeavors also require scheduling, and many of the same concerns exist therein, including a laser-like desire for efficiency.
 
-### 2.5.1 Workload Assumptions
+### 6.5.1 Workload Assumptions
 
 1. Each job runs for the same amount of time.
 2. All jobs arrive at the same time.

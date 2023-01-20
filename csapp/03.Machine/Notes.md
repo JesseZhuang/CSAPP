@@ -289,6 +289,6 @@ movb %ah,%sh|no register named %sh
 movl %eax,%dx|destination incorrect size
 movb %si,8(%ebp)|mismatch between instruction suffix and register id
 
-### 3.4.3
+### 3.4.3 Data Movement Example
 
 ### 3.4.4
