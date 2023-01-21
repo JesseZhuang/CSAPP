@@ -263,16 +263,17 @@ Specifically, reboot is useful because it moves software back to a known and lik
 
 Scheduling employs a series of policies (sometimes called disciplines). The origins of scheduling, in fact, predate computer systems; early approaches were taken from the field of operations management and applied to computers. This reality should be no surprise: assembly lines and many other human endeavors also require scheduling, and many of the same concerns exist therein, including a laser-like desire for efficiency.
 
-### 6.5.1 Workload Assumptions
+## 7.1 Workload Assumptions
 
 1. Each job runs for the same amount of time.
 2. All jobs arrive at the same time.
 3. Once started, each job runs to completion.
-4. All jobs only use the CPU (i.e., they perform no I/O) 5. The run-time of each job is known.
+4. All jobs only use the CPU (i.e., they perform no I/O)
+5. The run-time of each job is known.
 
 Many of these assumptions were unrealistic and some assumptions are more unrealistic than others in this chapter. In particular, it might bother you that the run-time of each job is known: this would make the scheduler omniscient, which, although it would be great (probably), is not likely to happen anytime soon.
 
-### 2.5.2 Scheduling Metrics
+## 7.2 Scheduling Metrics
 
 The turnaround time of a job is defined as the time at which the job completes minus the time at which the job arrived in the system, which is a performance metric.
 
@@ -280,20 +281,23 @@ $T_{turnaround} = T_{completion} - T_{arrival}$
 
 Another metric of interest is fairness, as measured (for example) by Jain’s Fairness Index. Performance and fairness are often at odds in scheduling; a scheduler, for example, may optimize performance but at the cost of preventing a few jobs from running, thus decreasing fairness. This conundrum shows us that life isn’t always perfect.
 
-### 2.5.3 First In, First Out
+## 7.3 First In, First Out
 
 FIFO has a number of positive properties: it is clearly simple and thus easy to implement. And, given our assumptions, it works pretty well.
 
 ![](fifo.convoy.png)
 
-Job A runs first for the full 100 seconds
-before B or C even get a chance to run. Thus, the average turnaround time for the system is high:a painful 110seconds. This problem is generally referred to as the convoy effect, where a number of relatively-short potential consumers of a resource get queued behind a heavyweight resource consumer.
+Job A runs first for the full 100 seconds before B or C even get a chance to run. Thus, the average turnaround time for the system is high:a painful 110 seconds. This problem is generally referred to as the convoy effect, where a number of relatively-short potential consumers of a resource get queued behind a heavyweight resource consumer.
 
-### 2.5.4 Shortest Job First
+## 7.4 Shortest Job First
 
 Shortest Job First (SJF) represents a general scheduling principle that can be applied to any system where the perceived turnaround time per customer (or, in our case, a job) matters. For example, grocery stores commonly have a “ten-items-or-less” line to ensure that shoppers with only a few things to purchase don’t get stuck behind the family preparing for some upcoming nuclear winter.
 
-Simply by running B and C before A, SJF reduces
-average turnaround from 110 seconds to 50, more than a factor of two improvement.
+Simply by running B and C before A, SJF reduces average turnaround from 110 seconds to 50, more than a factor of two improvement.
 
 In the old days of batch computing, a number of non-preemptive schedulers were developed; such systems would run each job to completion before considering whether to run a new job. Virtually all modern schedulers are preemptive, and quite willing to stop one process from running in order to run another. This implies that the scheduler employs the mechanisms we learned about previously in particular, the scheduler can perform a context switch, stopping one running process temporarily and resuming (or starting) another.
+
+## 7.5 Shortest Time-to-Completion First (STCF)
+
+<!-- references -->
+
