@@ -289,7 +289,7 @@ FIFO has a number of positive properties: it is clearly simple and thus easy to 
 
 Job A runs first for the full 100 seconds before B or C even get a chance to run. Thus, the average turnaround time for the system is high:a painful 110 seconds. This problem is generally referred to as the convoy effect, where a number of relatively-short potential consumers of a resource get queued behind a heavyweight resource consumer.
 
-## 7.4 Shortest Job First
+## 7.4 Shortest Job First (SJF)
 
 Shortest Job First (SJF) represents a general scheduling principle that can be applied to any system where the perceived turnaround time per customer (or, in our case, a job) matters. For example, grocery stores commonly have a “ten-items-or-less” line to ensure that shoppers with only a few things to purchase don’t get stuck behind the family preparing for some upcoming nuclear winter.
 
@@ -298,6 +298,13 @@ Simply by running B and C before A, SJF reduces average turnaround from 110 seco
 In the old days of batch computing, a number of non-preemptive schedulers were developed; such systems would run each job to completion before considering whether to run a new job. Virtually all modern schedulers are preemptive, and quite willing to stop one process from running in order to run another. This implies that the scheduler employs the mechanisms we learned about previously in particular, the scheduler can perform a context switch, stopping one running process temporarily and resuming (or starting) another.
 
 ## 7.5 Shortest Time-to-Completion First (STCF)
+
+We need to relax assumption 3 (jobs must run to completion). SJF is a non-preemptive scheduler. Now the schedule can preempty job A when jobs B and C arrive 10 s later. Preemptive Shortest Job First (PSJF).
+
+Result is average turnaround time of 50 s: ((120-0) + (20-10) + (30-10)) / 3 = 50.
+
+## 7.6 A New Metric: Response Time
+
 
 <!-- references -->
 
