@@ -305,6 +305,17 @@ Result is average turnaround time of 50 s: ((120-0) + (20-10) + (30-10)) / 3 = 5
 
 ## 7.6 A New Metric: Response Time
 
+For a number of early batch computing systems, STCF policy made some sense. However, the introduction of time-sahred machines changed all that.
+
+$T_{response} = T_{firstrun} - T_{arrival}$
+
+With above schedule (A arriving at 0, B and C at 10), the resposne time of each job is 0 for A and B, and 10 for C (average 3.33).
+
+While great for turnaround time, STCF is quite bad for response time and interactivity.
+
+## 7.7 Round Robin
+
+![](7.7.round.robin.png)
 
 <!-- references -->
 
