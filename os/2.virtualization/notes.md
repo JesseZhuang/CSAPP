@@ -317,5 +317,23 @@ While great for turnaround time, STCF is quite bad for response time and interac
 
 ![](7.7.round.robin.png)
 
+In figure 7.7 above, average response time of RR is (0+1+2)/3 = 1; for SJF (0+5+10)/3 = 5.
+
+Round-Robin (RR) scheduling [K64]. RR runs a job for a time slice (i.e., scheduling quantum) and then switches to the next job in the run queue. Note the length of the time slice must be a multiple of the timer-interrupt period.
+
+The length of the time slice is critical for RR. The shorter it is, the better the performance of RR for response-time metric. However, too short is problematic: the cost of context switching will dominate overall performance. System designer can make a right trade-off on the length of time slice, making it long enough to amortize the cost of context switching without making it so long that the system is no longer responsive. Tip: e.g., if the time slice is 10 ms, and the context-switch cost is 1 ms, about 10% is spent switching and wasted. If we increase time slice to 100 ms, less than 1% is spent switching.
+
+Context switching doe not arise solely from OS actions of saving and restoring registers. Programs also build up a great deal of state in CPU caches, (Translation Lookaside Buffer) TLBs, branch predictors, and other on-chip hardware [MB91].
+
+RR is a perfect scheduler if response time is our only metric. Average response time is 14s in figure 7.7. RR is nearly pessimal, even worse than simple FIFO in many cases in terms of turnaround time. More generally, any policy that is fair, i.e., evenly divides the CPU among active processes on a small time scale, will perform pooly on metrics such as turnaround time.
+
+- SJF STCF optimizes turnaround time
+- RR optimizes response time
+
+## 7.8 Incorportating I/O
+
+
 <!-- references -->
 
+[K64]: “Analysis of a Time-Shared Processor”, Leonard Kleinrock, Naval Research Logistics Quarterly, 11:1, pages 59–73, March 1964. May be the first reference to the round-robin scheduling algorithm; certainly one of the first analyses of said approach to scheduling a time-shared system.
+[MB91]: “The effect of context switches on cache performance”, Jeffrey C. Mogul and Anita Borg, ASPLOS, 1991, A nice study on how cache performance can be affected by context switching; less of an issue in today’s systems where processors issue billions of instructions per second but context-switches still happen in the millisecond time range.
