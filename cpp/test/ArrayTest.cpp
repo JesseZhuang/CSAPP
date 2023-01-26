@@ -3,6 +3,7 @@
 #include <boost/test/unit_test.hpp>
 #include <typeinfo>
 #include "string.h"
+#include <string>
 
 BOOST_AUTO_TEST_SUITE(array_tests)
 
@@ -50,9 +51,19 @@ BOOST_AUTO_TEST_SUITE(array_tests)
         char ca[] = {'C', '+', '+', '\0'};
         BOOST_CHECK_EQUAL(3, strlen(ca)); // count length till '\0' null character
         char ca2[] = {'c', '\0'};
-        BOOST_ASSERT(strcmp(ca, ca2) < 0); // C 67 c 99
+        BOOST_CHECK(strcmp(ca, ca2) < 0); // C 67 c 99
         BOOST_CHECK_EQUAL(4, strlen(strcat(ca, ca2))); // appends ca2 to ca
         BOOST_CHECK_EQUAL(1, strlen(strcpy(ca, ca2))); // copies ca2 to ca and returns ca
+    }
+
+    BOOST_AUTO_TEST_CASE(string_compare) {
+        using namespace std;
+        string s1 = "a string", s2 = "a different string";
+        BOOST_CHECK(s1 > s2);
+        const char ca1[] = "a string", ca2[] = "a different string";
+        BOOST_CHECK(strcmp(ca1, ca2) > 0); // cannot directly compare ca1 ca2, unrelated addresses
+        cout << "address ca1: " << (void *) ca1 << endl; // 0x7ff7b7e4e620
+        cout << "address ca1: " << (void *) ca2 << endl; // 0x7ff7baea9710
     }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -47,6 +47,7 @@ int main() {
     *r2 = 24;
     std::cout << "changed value through pointer reference: " << *r2 << std::endl;
     int array[] = {1, 2, 3, 4, 5};
+    std::cout << "arry address starts at " << array << std::endl; // arry address starts at 0x7ff7b7e4e620
     for (int i = 0; i < 6; i++)
         std::cout << "i: " << i << ", array pointer: "
                   << array + i << " value: " << *(array + i) << std::endl;
