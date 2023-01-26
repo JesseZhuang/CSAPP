@@ -2,6 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include <typeinfo>
+#include "string.h"
 
 BOOST_AUTO_TEST_SUITE(array_tests)
 
@@ -41,6 +42,17 @@ BOOST_AUTO_TEST_SUITE(array_tests)
         BOOST_CHECK_EQUAL(3, *a + 2);
         int *pa3 = &a[3];
         BOOST_CHECK_EQUAL(1, pa3[-3]); // built in subscript operator is not unsigned
+    }
+
+    // https://stackoverflow.com/questions/18688971/c-char-array-initialization-what-happens-if-there-are-less-characters-in-the-st
+    // cstring header, in cpp, string.h
+    BOOST_AUTO_TEST_CASE(c_style_string_functions) {
+        char ca[] = {'C', '+', '+', '\0'};
+        BOOST_CHECK_EQUAL(3, strlen(ca)); // count length till '\0' null character
+        char ca2[] = {'c', '\0'};
+        BOOST_ASSERT(strcmp(ca, ca2) < 0); // C 67 c 99
+        BOOST_CHECK_EQUAL(4, strlen(strcat(ca, ca2))); // appends ca2 to ca
+        BOOST_CHECK_EQUAL(1, strlen(strcpy(ca, ca2))); // copies ca2 to ca and returns ca
     }
 
 BOOST_AUTO_TEST_SUITE_END()
