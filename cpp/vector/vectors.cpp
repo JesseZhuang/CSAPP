@@ -8,8 +8,7 @@ using std::cin, std::cout, std::endl, std::vector, std::string;
 int binarySearch(vector<int> &vec, int target) // vec must be sorted, pass by reference
 {
     auto left = vec.begin(), right = vec.end();
-    while (left <= right)
-    {
+    while (left <= right) {
         auto mid = left + (right - left) / 2;
         if (target < *mid)
             right = mid - 1;
@@ -21,8 +20,7 @@ int binarySearch(vector<int> &vec, int target) // vec must be sorted, pass by re
     return -(left - vec.begin() + 1);
 }
 
-int main()
-{
+int main() {
     // vector is class template, hold objects of most any type, refrences are not objects
     // some compilers may require old style declaration vector<vector<int> >
     vector<int> v1(10);     // default init to 0
@@ -37,7 +35,7 @@ int main()
     cout << svec.size() << endl;
     string words;
     if (svec.size() > 0)
-        for (auto s : svec) // add or remove elements not allowed in for loop or iteration
+        for (auto s: svec) // add or remove elements not allowed in for loop or iteration
         {
             words += s;
             words += ",";
@@ -46,7 +44,7 @@ int main()
     vector<int> v5(5);
     std::iota(std::begin(v5), std::end(v5), 1); // natural numbers starting from 1
     cout << v5[0] << endl;
-    for (auto &i : v5)
+    for (auto &i: v5)
         i *= i;
     for (auto it = v5.begin(); it != v5.end(); ++it)
         cout << it - v5.begin() << ":" << *it << " ";
@@ -57,4 +55,10 @@ int main()
     cout << "binary search" << endl;
     cout << binarySearch(v5, 9) << endl;
     cout << binarySearch(v5, 10) << endl;
+    // can init vector with array
+    int int_arr[] = {0, 1, 2, 3, 4};
+    vector<int> ivec(std::begin(int_arr), std::end(int_arr));
+    cout << "4th element: " << ivec[4] << endl;
+    vector<int> subVec(int_arr + 1, int_arr + 4);
+    cout << "1st element of sub vec: " << subVec[0] << endl;
 }

@@ -66,4 +66,33 @@ BOOST_AUTO_TEST_SUITE(array_tests)
         cout << "address ca1: " << (void *) ca2 << endl; // 0x7ff7baea9710
     }
 
+    BOOST_AUTO_TEST_CASE(multi_dim_array) {
+        constexpr size_t rowCnt = 3, colCnt = 4;
+        int ia[rowCnt][colCnt];
+        for (size_t i = 0; i != rowCnt; ++i)
+            for (size_t j = 0; j != colCnt; ++j)
+                ia[i][j] = i * colCnt + j;
+        BOOST_CHECK_EQUAL(0, ia[0][0]);
+        BOOST_CHECK_EQUAL(4, ia[1][0]);
+        size_t cnt = 0;
+        for (auto &row: ia) for (auto &col: row) col = cnt++;
+        BOOST_CHECK_EQUAL(0, ia[0][0]);
+        BOOST_CHECK_EQUAL(4, ia[1][0]);
+    }
+
+    BOOST_AUTO_TEST_CASE(multi_dim_array_row_pointer) {
+        int ia[3][4]; // no default init value
+        int (*rowP)[4] = ia; // pointer to an array of 4 ints
+        int *ip[4]; // array of pointers to int
+        (*rowP)[2] = 23;
+        ip[2] = &ia[0][2];
+        BOOST_CHECK_EQUAL(23, *ip[2]);
+        using int_array = int[4]; // old style: typedef int int_array[4];
+        for (int_array *p = ia; p != std::end(ia); ++p) {
+            for (int *q = *p; q != std::end(*p); ++q)
+                std::cout << *q << ' ';
+            std::cout << std::endl;
+        }
+    }
+
 BOOST_AUTO_TEST_SUITE_END()
