@@ -3,35 +3,36 @@
 
 using namespace std;
 
-void passValue(vector<int> vec)
-{
+void passValue(vector<int> vec) {
     vec.push_back(30);
 }
 
-void passRef(vector<int> &vec)
-{
+void passRef(vector<int> &vec) {
     vec.push_back(30);
 }
 
-void printVec(vector<int> &vec)
-{
-    for (auto &i : vec)
+void printVec(vector<int> &vec) {
+    for (auto &i: vec)
         cout << i << " ";
     cout << endl;
 }
 
-struct demo
-{
+struct demo {
     int a;
 };
 
-int main()
-{
+size_t count_calls() {
+    // destroyed when program terminates. value init, built-in init to 0
+    static size_t ctr = 0; // init before the first time execution passes through the object definition
+    return ++ctr;
+}
+
+int main() {
     vector<int> v1{10, 20};
-    passValue(v1);
-    printVec(v1);
-    passRef(v1);
-    printVec(v1);
+    passValue(v1); // pass by value
+    printVec(v1); // 10, 20
+    passRef(v1); // pass by reference
+    printVec(v1); // 10, 20, 30
 
     // compare reference and pointer
     int x = 5, y = 6;
@@ -41,7 +42,7 @@ int main()
     cout << p << " " << &x << endl;  // 0x7ff7bcab05b8 0x7ff7bcab05b8
     cout << &p << " " << &x << endl; // 0x7ff7bcab05a8 0x7ff7bcab05b8
     // https://stackoverflow.com/questions/10087113/how-many-levels-of-pointers-can-we-have
-    p = &y; // 1. Pointer reintialization allowed
+    p = &y; // 1. Pointer reinitialization allowed
     int &r = x;
     cout << p << '\n'; // 6. Prints the address 0x7ff7b127c5b4
     cout << r << '\n'; // 6. Print the value of x
@@ -56,6 +57,10 @@ int main()
     demo *dp = &d;
     demo &qq = d;
     dp->a = 8;
-    qq.a = 8;
+    cout << "set to 8: " << dp->a << endl;
+    qq.a = 7;
+    cout << "set to 7: " << dp->a << endl;
+
+    for (size_t i = 0; i != 5; ++i) cout << "static global var: " << count_calls() << endl; // 1,2,3,...
     return 0;
 }
