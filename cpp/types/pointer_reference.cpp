@@ -19,7 +19,7 @@ int main() {
     /*
      * Pointer states:
      * 1, point to an object, int *p = 2 does not compile
-     * 2, point to an location past the end of an object
+     * 2, point to a location past the end of an object
      * 3, a null pointer, not bound
      * 4, invalid pointer
      */
@@ -27,6 +27,8 @@ int main() {
     int &r = i; // r is a reference bound to i and cannot be changed to reference other objects
     reference_swap();
     p2 = &i;    // p2 was null pointer, now hold address of i
+    std::cout << "size of pointer: " << sizeof p2 << " same as size of type: " << sizeof(int *) << std::endl; // 8
+    std::cout << "sie of pointer deref: " << sizeof *p2 << std::endl; // 4 bytes
     int *p4;    // uninitialized pointer
     p4 = p2;    // p4 now hold same adders as p2
     std::cout << "pointers are equal when they point to same address: " << (p4 == p2) << std::endl;
@@ -47,7 +49,7 @@ int main() {
     *r2 = 24;
     std::cout << "changed value through pointer reference: " << *r2 << std::endl;
     int array[] = {1, 2, 3, 4, 5};
-    std::cout << "arry address starts at " << array << std::endl; // arry address starts at 0x7ff7b7e4e620
+    std::cout << "array address starts at " << array << std::endl; // array address starts at 0x7ff7b7e4e620
     for (int i = 0; i < 6; i++)
         std::cout << "i: " << i << ", array pointer: "
                   << array + i << " value: " << *(array + i) << std::endl;
