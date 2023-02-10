@@ -23,7 +23,7 @@ public:
         return true;
     }
 
-    bool isIsomorphicArray(string s, string t) { // 0ms, 6.9Mb
+    bool isIsomorphicArray1(string s, string t) { // 0ms, 6.9Mb
         short m1[R], m2[R];
         fill_n(m1, R, -1), fill_n(m2, R, -1);
         for (int i = 0; i < s.size(); ++i) {
@@ -35,8 +35,17 @@ public:
         return true;
     }
 
+    bool isIsomorphicArray2(string s, string t) {
+        unsigned short m1[R] = {0}, m2[R] = {0}; // R has to be const for init
+        for (int i = 0; i < s.size(); ++i) {
+            if (m1[s[i]] != m2[t[i]]) return false;
+            m1[s[i]] = m2[t[i]] = i + 1; // s.length <= 5*10^4, fit in unsigned short, short overflow, still works
+        }
+        return true;
+    }
+
 private:
-    inline static int R = 128; // c++ 17, or const static
+    const static int R = 128; // c++ 17 can use inline static
 };
 
 #endif //LEET_CODE_ISOMORPHICSTRING_HPP
