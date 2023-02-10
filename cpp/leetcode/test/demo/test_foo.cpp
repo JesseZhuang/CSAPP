@@ -11,7 +11,6 @@ BOOST_AUTO_TEST_SUITE(foo_suite)
     BOOST_AUTO_TEST_CASE(constructor_test)
     {
         Foo foo(3);
-
         BOOST_CHECK_EQUAL(foo.doubleValue(), 6);
     }
 
