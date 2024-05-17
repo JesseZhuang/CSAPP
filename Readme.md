@@ -1,6 +1,10 @@
 ## CSAPP
 
-https://github.com/vonzhou/CSAPP
+### References
+
+1. https://github.com/vonzhou/CSAPP
+1. https://github.com/Vonng/CSAPP
+1. https://blog.csdn.net/yakumosumi/article/details/117951585
 
 ## OSTEP
 
