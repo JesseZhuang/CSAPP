@@ -1,27 +1,12 @@
-cmake_minimum_required(VERSION 3.14)
+set(TEST_NAME ${CMAKE_PROJECT_NAME}_test)
+project(${TEST_NAME})
 
-# Clion will ignore this and use ./cmake-build-debug
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ".")
-set(PROJECT_UNIT_TESTS_NAME leet_code_unit_tests)
+file(GLOB_RECURSE SRC_FILES ./*/*.cpp ./test_main.cpp)
 
-# Dependencies
-find_package(Boost COMPONENTS filesystem system unit_test_framework REQUIRED)
+add_executable(${TEST_NAME} ${SRC_FILES})
 
-# Gather the header and source files
-#file(GLOB UNIT_TESTS_INC_FILES ${PROJECT_SOURCE_DIR}/test/*/*.hpp)
-file(GLOB UNIT_TESTS_SRC_FILES ${PROJECT_SOURCE_DIR}/test/*/*.cpp)
-
-# Include paths
-set(UNIT_TESTS_INCLUDES ../src ${Boost_INCLUDE_DIR})
-
-# Assign the include directories
-include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${UNIT_TESTS_INCLUDES})
-
-# Build unit tests
-add_definitions(-DBOOST_TEST_DYN_LINK)
-add_executable(${PROJECT_UNIT_TESTS_NAME} ${SRC_FILES} ${UNIT_TESTS_SRC_FILES})
-target_link_libraries(${PROJECT_UNIT_TESTS_NAME} ${Boost_LIBRARIES})
-
-#enable_testing()
-#add_test(DemoTest ${PROJECT_UNIT_TESTS_NAME})
+# linking Google_Tests_run with DateConverter_lib which will be tested
+target_link_libraries(${TEST_NAME} ${CMAKE_PROJECT_NAME}_lib)
+target_link_libraries(${TEST_NAME} gtest gtest_main)
+include(GoogleTest)
+gtest_discover_tests(${TEST_NAME})

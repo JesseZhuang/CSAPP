@@ -3,7 +3,7 @@
 
 #include <string>
 
-// lc 242
+// LeetCode 242
 class ValidAnagram {
 public:
     bool isAnagram(std::string s, std::string t);

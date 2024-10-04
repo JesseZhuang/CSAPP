@@ -1,12 +1,8 @@
-#include <boost/test/unit_test.hpp>
+#include "gtest/gtest.h"
 #include "hash/IsomorphicString.hpp"
 
-BOOST_AUTO_TEST_SUITE(leetcode)
-
-    BOOST_AUTO_TEST_CASE(isomorphic_string_test) {
-        IsomorphicString tbt;
-        BOOST_CHECK_EQUAL(true, tbt.isIsomorphicMap("paper", "title"));
-        BOOST_CHECK_EQUAL(true, tbt.isIsomorphicArray2("paper", "title"));
-    }
-
-BOOST_AUTO_TEST_SUITE_END()
+TEST(hash, isomorphic_string) {
+    IsomorphicString tbt;
+    ASSERT_TRUE(tbt.isIsomorphicMap("paper", "title"));
+    ASSERT_TRUE(tbt.isIsomorphicArray2("paper", "title"));
+}

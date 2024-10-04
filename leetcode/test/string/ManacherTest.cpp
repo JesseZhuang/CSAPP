@@ -1,16 +1,14 @@
-
-#include <boost/test/unit_test.hpp>
+#include "gtest/gtest.h"
 #include "string/Manacher.hpp"
-#include <iostream>
 
 using namespace std;
 
-BOOST_AUTO_TEST_CASE(manacher) {
+TEST(string, manacher) {
     string s = "abba";
     Manacher m(s); // copy string in constructor
-    BOOST_CHECK_EQUAL("abba", m.longestPalindromeSubstring());
-    BOOST_CHECK_EQUAL(6, m.cntPalindromeSubstrings());
+    ASSERT_EQ(6, m.cntPalindromeSubstrings());
+    ASSERT_EQ("abba", m.longestPalindromeSubstring());
     s[0] = 'b';
-    BOOST_CHECK_EQUAL("abba", m.s); // still abba
-    BOOST_CHECK_EQUAL("bbba", s); // changed to bbba
+    ASSERT_EQ("abba", m.s); // still abba
+    ASSERT_EQ("bbba", s); // changed to bbba
 }
