@@ -1,6 +1,8 @@
-# Project settings
+cmake_minimum_required(VERSION 3.14)
+
+# Clion will ignore this and use ./cmake-build-debug
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ".")
-set(PROJECT_UNIT_TESTS_NAME ${PROJECT_NAME_STR}_unit_tests)
+set(PROJECT_UNIT_TESTS_NAME leet_code_unit_tests)
 
 # Dependencies
 find_package(Boost COMPONENTS filesystem system unit_test_framework REQUIRED)
@@ -18,8 +20,7 @@ include_directories(${UNIT_TESTS_INCLUDES})
 
 # Build unit tests
 add_definitions(-DBOOST_TEST_DYN_LINK)
-#add_executable(${PROJECT_UNIT_TESTS_NAME} ${UNIT_TESTS_SRC_FILES} $<TARGET_OBJECTS:demo_objects> )
-add_executable(${PROJECT_UNIT_TESTS_NAME} ${UNIT_TESTS_SRC_FILES} ${SRC_FILES})
+add_executable(${PROJECT_UNIT_TESTS_NAME} ${SRC_FILES} ${UNIT_TESTS_SRC_FILES})
 target_link_libraries(${PROJECT_UNIT_TESTS_NAME} ${Boost_LIBRARIES})
 
 #enable_testing()

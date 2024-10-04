@@ -50,15 +50,3 @@ int Manacher::cntPalindromeSubstrings() {
     }
     return res;
 }
-
-// in Clion, run, edit configurations,+, c/c++ file, choose the file, compile and run
-int main() {
-    string s = "abba";
-    Manacher m(s); // copy string in constructor
-    cout << m.cntPalindromeSubstrings() << endl;
-    cout << m.longestPalindromeSubstring() << endl;
-    s[0] = 'b';
-    cout << m.s << endl; // still abba
-    cout << s << endl; // changed to bbba
-    return 0;
-}
