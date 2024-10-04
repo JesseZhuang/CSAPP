@@ -9,7 +9,8 @@ Clion bundled Cmake and LLDB (debugger). GoogleTest is downloaded with CMake.
 
 ## cpp version
 
-LeetCode notes: Compiled with clang 17 using the latest C++ 23 standard, and libstdc++ provided by GCC 13. Your code is compiled with level two optimization (-O2). AddressSanitizer is also enabled to help detect out-of-bounds and use-after-free bugs. Most standard library headers are already included automatically for your convenience.
+LeetCode notes: Compiled with clang 17 using the latest C++ 23 standard, and
+`libstdc++` provided by GCC 13. Your code is compiled with level two optimization (-O2). AddressSanitizer is also enabled to help detect out-of-bounds and use-after-free bugs. Most standard library headers are already included automatically for your convenience.
 
 Apple clang c++ support: https://developer.apple.com/xcode/cpp/
 
@@ -59,7 +60,7 @@ nums size is 6
 Process finished with exit code 0
 ```
 
-Run -> edit configurations -> + -> Google Test -> change target in the drop down to LeetCode_test
+Run -> edit configurations -> + -> Google Test -> change target in the drop-down to LeetCode_test
 
 ```shell
 /Volumes/code/CSAPP/leetcode/cmake-build-debug/test/LeetCode_test --gtest_filter=* --gtest_color=no
@@ -68,7 +69,9 @@ Running main() from /Volumes/code/CSAPP/leetcode/cmake-build-debug/_deps/googlet
 Process finished with exit code 0
 ```
 
-Can right click a test cpp file and run all tsts in there.
+Click the check-mark icon to show passed tests if desired.
+
+Can right-click a test cpp file and run all tests in there.
 
 ```shell
 /Volumes/code/CSAPP/leetcode/cmake-build-debug/test/LeetCode_test --gtest_filter=BisectTestF.bisect_found:BisectTestF/*.bisect_found:BisectTestF.bisect_found/*:*/BisectTestF.bisect_found/*:*/BisectTestF/*.bisect_found:BisectTestF.bisect_not_found:BisectTestF/*.bisect_not_found:BisectTestF.bisect_not_found/*:*/BisectTestF.bisect_not_found/*:*/BisectTestF/*.bisect_not_found:BisectTestF.bisect_not_found_insert:BisectTestF/*.bisect_not_found_insert:BisectTestF.bisect_not_found_insert/*:*/BisectTestF.bisect_not_found_insert/*:*/BisectTestF/*.bisect_not_found_insert --gtest_color=no
