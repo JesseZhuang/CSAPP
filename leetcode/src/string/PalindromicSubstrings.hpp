@@ -10,7 +10,7 @@ using namespace std;
 class Solution {
 public:
     int countSubstrings(string s) {
-        Manacher m(std::move(s));
+        Manacher m(move(s));
         return m.cntPalindromeSubstrings();
     }
 };

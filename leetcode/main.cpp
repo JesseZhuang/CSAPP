@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-    cout << "Hello, World!" << std::endl;
+    cout << "Hello, World!" << endl;
     vector<int> nums{0, 1, 2, 4, 5};
     cout << "binary search 2, index: " << bisect(nums, 2) << endl;
     int notFound = bisect(nums, 3), insert = ~notFound;
