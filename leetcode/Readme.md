@@ -8,6 +8,14 @@ This project was built and tested on the Mac OS X platform with the following de
 Clion bundled Cmake and LLDB (debugger). Install boost (unit test) with homebrew (installed
 in `/opt/homebrew/Cellar/boost`).
 
+## cpp version
+
+LeetCode notes: Compiled with clang 17 using the latest C++ 23 standard, and libstdc++ provided by GCC 13. Your code is compiled with level two optimization (-O2). AddressSanitizer is also enabled to help detect out-of-bounds and use-after-free bugs. Most standard library headers are already included automatically for your convenience.
+
+Apple clang c++ support: https://developer.apple.com/xcode/cpp/
+
+Clion c++ support: https://www.jetbrains.com/help/clion/c-support.html
+
 ## CLion Instructions
 
 Run -> edit configurations -> add new Boot.Test configuration -> select leet_code_unit_test target. Run all tests.
@@ -21,6 +29,8 @@ To run single test, have to manually type in the test name as pattern in the win
 `/Volumes/code/CSAPP/leetcode/cmake-build-debug/test/bin/leet_code_unit_tests --run_test=foo_suite/constructor_test --logger=HRF,all --color_output=false --report_format=HRF --show_progress=no`
 
 ## Instructions
+
+Use custom cmake or Clion bundled cmake (need to find the executable).
 
 Do as you would any CMake project to compile:
 
