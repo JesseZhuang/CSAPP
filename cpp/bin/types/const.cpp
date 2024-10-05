@@ -16,7 +16,7 @@ int main()
     double dval = 2.3;
     const int &ri = dval;
     std::cout << "dval: " << dval << std::endl;
-    std::cout << "equivalaent to const int temp = dval first " << ri << std::endl;
+    std::cout << "equivalaent to const int bin = dval first " << ri << std::endl;
     // const pointer
     int errCode = 502;
     int *const curErr = &errCode; // curErr will alwasy point to that address, top-level const pointer
