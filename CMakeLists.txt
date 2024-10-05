@@ -5,7 +5,7 @@ add_definitions(-std=c++17)
 include(CTest)
 enable_testing()
 
-add_executable(${PROJECT_NAME} ./cpp/helloworld.cpp)
+add_executable(${PROJECT_NAME} ./cpp/helloArgs.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

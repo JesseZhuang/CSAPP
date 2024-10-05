@@ -1,9 +1,12 @@
-set(Boost_USE_STATIC_LIBS OFF)
-find_package(Boost REQUIRED COMPONENTS unit_test_framework)
-include_directories(${Boost_INCLUDE_DIRS})
+set(TEST_NAME ${CMAKE_PROJECT_NAME}_test)
+project(${TEST_NAME})
 
-file(GLOB UNIT_TEST_SOURCES CONFIGURE_DEPENDS "./*.cpp")
+file(GLOB_RECURSE SRC_FILES ./*/*.cpp ./test_main.cpp)
 
-add_executable(Boost_Tests_run ${UNIT_TEST_SOURCES})
-target_link_libraries(Boost_Tests_run ${Boost_LIBRARIES})
-# target_link_libraries (Boost_Tests_run DateConverter_lib)
+add_executable(${TEST_NAME} ${SRC_FILES})
+
+# linking Google_Tests_run with DateConverter_lib which will be tested
+target_link_libraries(${TEST_NAME} ${CMAKE_PROJECT_NAME}_lib)
+target_link_libraries(${TEST_NAME} gtest gtest_main)
+include(GoogleTest)
+gtest_discover_tests(${TEST_NAME})

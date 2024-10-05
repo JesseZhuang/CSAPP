@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 project(LeetCode)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(SRC_EXE ${CMAKE_PROJECT_NAME}_src_main)
 add_executable(${SRC_EXE} main.cpp)
 
