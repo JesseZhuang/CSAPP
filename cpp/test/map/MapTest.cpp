@@ -29,7 +29,7 @@ TEST_F(MapTestF, bracket_opperator) {
     ASSERT_TRUE(tbt.empty());
     ASSERT_EQ(0, tbt[1]); // inserted with default value 0 on insert
     ASSERT_EQ(1, tbt.size());
-    tbt[1] += 10;
+    tbt[1] += 10; // can increment
     ASSERT_EQ(10, tbt[1]);
     unordered_map<int, string> tbt2{{1, "apple"}, {2, "orange"}};
     ASSERT_EQ(2, tbt2.size());
