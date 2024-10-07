@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// LeetCode 3312, weekly 418 Q4
 class Solution {
 public:
     vector<int> gcdValues(vector<int>& a, vector<long long>& queries) {
