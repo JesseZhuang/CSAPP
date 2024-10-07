@@ -108,3 +108,34 @@ Alternatively, in `test_main.cpp`, click the gutter icon and run `LeetCode_test`
 
 Process finished with exit code 0
 ```
+
+## LeetCode
+
+### Macros
+
+Noted from user @fjzzq2002.
+
+```c++
+#pragma GCC optimize("Ofast","unroll-loops","-ffast-math","march=native")
+#include <algorithm>
+#include <bits/stdc++.h>
+#include <vector>
+#include <sstream>
+#include <iostream>
+#include <sys/wait.h>
+#include <unistd.h>
+using namespace std;
+typedef long double ld;
+#define SZ 1234567
+typedef long long ll;
+const int MOD = 998244353;
+#define mp make_pair
+#define pb push_back
+#define st first
+#define nd second
+#define all(c) (c).begin(), (c).end()
+#define endl '\n'
+#define fastio ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+#define fi first
+#define se second
+```
