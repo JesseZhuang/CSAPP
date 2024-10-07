@@ -15,7 +15,7 @@ public:
 
 private:
     TrieNode *get(const string &word) {
-        auto *node = root.get();
+        TrieNode *node = root.get();
         for (int i = 0; i < word.length(); ++i) {
             const int id = word[i] - A;
             if (!node->next[id]) return nullptr;
