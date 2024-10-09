@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// use raw pointer and free memory to avoid leak
+// use raw pointer and free memory to avoid leak, credit: ohini@
 class Node {
 public:
     bool isWord;
