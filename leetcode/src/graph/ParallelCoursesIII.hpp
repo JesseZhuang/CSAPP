@@ -14,6 +14,7 @@ public:
         vector adj(n + 1, vector<int>(0));
         for (vector<int> &e: relations)
             adj[e[0]].emplace_back(e[1]);
+        // recursive so this lambda cannot use auto
         function<void(int)> dfs = [&](int v) {
             if (cache[v] != -1) return;
             cache[v] = 0;
@@ -27,4 +28,5 @@ public:
         return *max_element(cache.begin(), cache.end());
     }
 };
+
 #endif //PARALLELCOURSESIII_HPP
