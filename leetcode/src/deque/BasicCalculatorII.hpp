@@ -8,7 +8,7 @@ using namespace std;
 class Solution {
 public:
     int calculate(const string &s) {
-        int res = 0, cur = 0, last = 0;
+        int res = 0, cur = 0, last = 0; // must init, not like java no default 0
         char preOp = '+';
         for (auto &c: (s + "##")) {
             if (isspace(c)) continue;
