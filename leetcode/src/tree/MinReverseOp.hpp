@@ -63,7 +63,8 @@ public:
             int hi = min(n - 1, cur + step) - step;
             hi = 2 * hi + step - cur;
             int id = lo % 2;
-            auto b = s[id].lower_bound(lo), e = s[id].upper_bound(hi); // lower_bound:bisect_left, first not less
+            // lower_bound:bisect_left, first not less
+            auto b = s[id].lower_bound(lo), e = s[id].upper_bound(hi);
             for (auto it = b; it != e; ++it) {
                 res[*it] = res[cur] + 1;
                 q.push(*it);
