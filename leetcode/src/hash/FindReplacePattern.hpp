@@ -18,14 +18,14 @@ public:
             auto [fst, snd] = llm.emplace(word[i], pattern[i]);
             if (!snd && (*fst).second != pattern[i]) return false;
         }
-        auto kv = views::values(llm);
-        set<char> uniq{kv.begin(), kv.end()};
+        auto v = views::values(llm);
+        set<char> uniq{v.begin(), v.end()};
         return llm.size() == uniq.size();
     }
 
     vector<string> findAndReplacePattern(vector<string> &words, const string &pattern) {
         return ranges::to<vector<string> >(
-            words | views::filter([&](string &w) { return match(w, pattern); }));
+                words | views::filter([&](string &w) { return match(w, pattern); }));
     }
 };
 

@@ -25,7 +25,7 @@ public:
             i++;
         }
         vector<long long> dp(k, 1), ndp(k);
-        // todo: why k+2?
+        // why k+2?, iterate i (character groups) backwards
         for (int i = min(static_cast<int>(w.size()), k + 2) - 1; i >= 0; i--) {
             vector<long long> pf(k + 1, 0);
             for (int j = 0; j < k; j++) pf[j + 1] = (pf[j] + dp[j]) % M; // prefix sum
