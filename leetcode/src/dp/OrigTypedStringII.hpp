@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// dp[i][j] i: possibilities for character groups in w[0,i], string size at most j
+// dp[i][j] i: possibilities for character groups in w[0,i], string size at most j. @theabbie
 class Solution {
 public:
     int possibleStringCount(string word, int k) {
@@ -24,13 +24,14 @@ public:
             w.push_back(ctr);
             i++;
         }
+        if (k <= w.size()) return static_cast<int>(res);
         vector<long long> dp(k, 1), ndp(k);
         // why k+2?, iterate i (character groups) backwards
-        for (int i = min(static_cast<int>(w.size()), k + 2) - 1; i >= 0; i--) {
+        for (int cnt: w) {
             vector<long long> pf(k + 1, 0);
             for (int j = 0; j < k; j++) pf[j + 1] = (pf[j] + dp[j]) % M; // prefix sum
             for (int rem = 0; rem < k; rem++) {
-                int x = min(w[i], rem);
+                int x = min(cnt, rem);
                 ndp[rem] = (pf[rem] - pf[rem - x] + M) % M;
             }
             dp = ndp;
