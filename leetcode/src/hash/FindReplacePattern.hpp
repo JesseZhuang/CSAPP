@@ -15,6 +15,7 @@ public:
     bool match(string &word, const string &pattern) {
         unordered_map<char, char> llm;
         for (size_t i = 0; i < word.length(); i++) {
+            // similar to Java computeIfAbsent
             auto [fst, snd] = llm.emplace(word[i], pattern[i]);
             if (!snd && (*fst).second != pattern[i]) return false;
         }
