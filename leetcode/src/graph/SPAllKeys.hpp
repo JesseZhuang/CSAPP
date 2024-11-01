@@ -9,6 +9,15 @@
 
 using namespace std;
 
+struct State {
+    size_t r, c;
+    int k;
+
+    string toString() {
+        return format("r={},c={},k={}", r, c, k);
+    }
+};
+
 class Solution {
 public:
     int shortestPathAllKeys(vector<string> &grid) {
@@ -23,16 +32,10 @@ public:
                 if (islower(ch)) mk = max(mk, ch - 'a' + 1);
             }
         }
-        typedef tuple<size_t, size_t, int> t3;
-        struct key_hash {
-            size_t operator()(const t3 &x) const {
-                return get<0>(x) ^ get<1>(x) ^ get<2>(x);
-            }
-        };
-        unordered_set < t3, key_hash > vis; // or use string format
-        queue<t3> q;
-        t3 start = make_tuple(x, y, 0);
-        vis.emplace(start);
+        unordered_set < string > vis; // or use string format
+        queue<State> q;
+        State start{x, y, 0};
+        vis.emplace(start.toString());
         q.emplace(start);
         vector<vector<size_t>> dirs = {{0,        1},
                                        {0, SIZE_MAX},
@@ -53,9 +56,9 @@ public:
                     if (ch == '#') continue;
                     if (isupper(ch) && (nk & (1 << (ch - 'A'))) == 0) continue;
                     if (islower(ch)) nk |= 1 << (ch - 'a');
-                    t3 state = make_tuple(nr, nc, nk);
-                    if (vis.contains(state)) continue;
-                    vis.emplace(state);
+                    State state{nr, nc, nk};
+                    if (vis.contains(state.toString())) continue;
+                    vis.emplace(state.toString());
                     q.emplace(state);
                 }
             }
