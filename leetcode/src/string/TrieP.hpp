@@ -1,5 +1,6 @@
 #ifndef TRIEP_HPP
 #define TRIEP_HPP
+
 #include <string>
 
 using namespace std;
@@ -7,12 +8,12 @@ using namespace std;
 // use raw pointer and free memory to avoid leak, credit: ohini@
 class Node {
 public:
-    bool isWord;
+    bool end;
     Node **next; // pointer to array of pointers, double pointer
 
     Node() {
         next = new Node *[26]();
-        isWord = false;
+        end = false;
     }
 
     // free memory to avoid leak
@@ -31,12 +32,12 @@ public:
 
     void insert(string word) {
         // pass by value, avoid copy
-        getNode(move(word), true)->isWord = true;
+        getNode(move(word), true)->end = true;
     }
 
     bool search(string word) {
         Node *n = getNode(word, false);
-        return n != nullptr && n->isWord;
+        return n != nullptr && n->end;
     }
 
     bool startsWith(string prefix) {

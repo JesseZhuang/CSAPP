@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include <typeinfo>
 #include <cstring>
 #include <string>
+#include <array>
 
 using namespace std;
 
@@ -10,6 +10,20 @@ TEST(array, value_init) {
     const unsigned size = 5;
     int ia2[size] = {0, 1, 2}; // remaining are value initialized with zero for int array
     ASSERT_EQ(0, ia2[3]);
+}
+
+
+TEST(array, std_array_init) {
+    array a1{2.1, 1.2}; // compiler infers type
+    ASSERT_EQ(2.1, a1[0]);
+    array<int, 2> a2{}; // list init, value init both to 0
+    ASSERT_EQ(0, a2[1]);
+    array<int, 3> a3{1}; // list init, unspecified element value init
+    ASSERT_EQ(0, a3[2]);
+    int a = 1;
+    array<int *, 3> a4{&a}; // list init, unspecified elements value init to nullptr
+    ASSERT_EQ(1, *a4[0]);
+    ASSERT_EQ(nullptr, a4[1]);
 }
 
 TEST(array, pointer_arithmetic) {

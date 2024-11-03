@@ -2,18 +2,21 @@
 #define TRIENODE_HPP
 
 #include <array>
+#include <memory> // unique_ptr
 
 using namespace std;
 
-constexpr static int A = 'a';
-constexpr static int Z = 'z';
-constexpr static int TWENTY_SIX = Z - A + 1;
+//constexpr since c++ 11, https://www.geeksforgeeks.org/understanding-constexper-specifier-in-cpp/
+//constexpr static int A = 'a';
+//constexpr static int Z = 'z';
+//constexpr static int TWENTY_SIX = Z - A + 1;
 
 // credit vysbor@
 class TrieNode {
 public:
-    array<unique_ptr<TrieNode>, TWENTY_SIX> next{nullptr};
-    bool isWord = false;
+    unordered_map<char, unique_ptr<TrieNode>> next; // not unique_pointer
+//    array<unique_ptr<TrieNode>, TWENTY_SIX> next{nullptr};
+    bool end = false;
     unsigned int cnt = 0;
 
     TrieNode() = default;
@@ -21,27 +24,25 @@ public:
     void insert(const string &word) {
         auto *node = this;
         for (auto &ch: word) {
-            const int id = ch - A;
-            if (!node->next[id]) node->next[id] = make_unique<TrieNode>();
-            node = node->next[id].get();
+            if (!node->next[ch]) node->next[ch] = make_unique<TrieNode>();
+            node = node->next[ch].get();
             node->cnt++;
         }
-        node->isWord = true;
+        node->end = true;
     }
 
     TrieNode *get(const string &word) {
         TrieNode *node = this;
-        for (int i = 0; i < word.length(); ++i) {
-            const int id = word[i] - A;
-            if (!node->next[id]) return nullptr;
-            node = node->next[id].get();
+        for (auto &ch: word) {
+            if (!node->next[ch]) return nullptr;
+            node = node->next[ch].get();
         }
         return node;
     }
 
     bool search(const string &word) {
         auto *node = get(word);
-        return node != nullptr && node->isWord;
+        return node != nullptr && node->end;
     }
 
     bool startsWith(const string &word) {

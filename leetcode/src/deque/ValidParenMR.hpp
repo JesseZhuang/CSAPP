@@ -24,7 +24,7 @@ public:
             }
             res.emplace_back(c);
         }
-        return {res.begin(), res.end()};
+        return {res.begin(), res.end()}; // construct string from vector of chars
     }
 };
 

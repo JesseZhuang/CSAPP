@@ -10,13 +10,13 @@ using namespace std;
 class Solution {
 public:
     vector<int> sumPrefixScores(vector<string> &words) {
-        unique_ptr<TrieNode> root = make_unique<TrieNode>();
+        auto root = make_unique<TrieNode>(); // note no *
         for (string &w: words) root->insert(w);
 
         vector<int> res;
         for (string &w: words) {
             int sum = 0;
-            TrieNode *cur = root.get();
+            auto cur = root.get(); // note star * is optional ...
             for (auto &c: w) {
                 int id = c - 'a';
                 cur = cur->next[id].get();
