@@ -2,7 +2,7 @@
 #define LEETCODE_CPH_HPP
 
 
-#include <vector>
+#include "bits/stdc++.hpp"
 
 // @Kude
 #pragma GCC optimize("O2")

@@ -1,8 +1,6 @@
 #ifndef LEETCODE_MAXTOTALTOWERHEIGHT_HPP
 #define LEETCODE_MAXTOTALTOWERHEIGHT_HPP
 
-#include <vector>
-#include <algorithm>
 #include "util/cph.hpp"
 
 // LeetCode 3301
