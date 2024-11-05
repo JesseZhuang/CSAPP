@@ -1,8 +1,7 @@
 #ifndef LEET_CODE_MINCOSTARRAYUNEQUAL_HPP
 #define LEET_CODE_MINCOSTARRAYUNEQUAL_HPP
 
-#include <vector>
-#include <unordered_map>
+#include "bits/stdc++.hpp"
 
 using namespace std;
 
