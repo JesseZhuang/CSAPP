@@ -4,6 +4,8 @@
 
 #include "bits/stdc++.hpp"
 
+// competitive programming hacks
+
 // @Kude
 #pragma GCC optimize("O2")
 //https://stackoverflow.com/questions/25311011/how-does-include-bits-stdc-h-work-in-c
