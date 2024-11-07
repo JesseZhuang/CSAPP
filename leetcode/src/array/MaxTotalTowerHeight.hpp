@@ -9,7 +9,7 @@ public:
     long long maximumTotalSum(vector<int> &maxH) {
         sort(rall(maxH));
         ll res = 0;
-        int last = 1001001001; // > 10^9 constraint
+        int last = 1'001'001'001; // > 10^9 constraint, can use single quote as separator in literal since c++ 14
         for (int h: maxH) {
             last = min(h, last - 1);
             if (last <= 0) return -1;

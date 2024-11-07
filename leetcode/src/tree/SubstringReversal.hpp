@@ -47,9 +47,9 @@ class Solution {
     }
 
 public:
-    string reverse_ss(string s, vector<pair<int, int>> op) {
+    string reverse_ss(const string &s, const vector<pair<int, int>> &op) {
         pitem root = nullptr; // init important, otherwise undefined init values
-        for (char c: s) merge(root, root, new item(c));
+        for (char c: s) merge(root, root, new item(c)); // in order, can just user merge
         for (auto [l, r]: op) reverse(root, l - 1, r - 1);
 //        cout << root << endl;
         vector<char> res;

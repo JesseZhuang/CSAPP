@@ -62,7 +62,7 @@ void split(pitem t, pitem &l, pitem &r, int key, int add = 0) {
     if (!t)
         return void(l = r = nullptr);
     push(t);
-    int cur_key = add + cnt(t->l); // key of a node is the number of nodes less than it
+    int cur_key = add + cnt(t->l); // implicit key of a node is the number of nodes less than it
     if (key <= cur_key)
         split(t->l, l, t->l, key, add), r = t;
     else
