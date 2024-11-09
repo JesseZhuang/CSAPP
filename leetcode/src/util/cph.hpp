@@ -39,4 +39,17 @@ using VVI = vector<VI>;
 using VL = vector<ll>;
 using VVL = vector<VL>;
 
+string string_join(const vector<string> &vs, const string &delimiter) {
+    if (vs.empty()) return "";
+    return reduce(next(begin(vs)), end(vs), *begin(vs),
+                  [&](const string &a, const string &b) { return a + delimiter + b; });
+}
+
+string string_join(const vector<string> &vs) {
+    string res;
+    if (vs.empty()) return res;
+    for (const auto &s: vs) res += s;
+    return res;
+}
+
 #endif //LEETCODE_CPH_HPP
