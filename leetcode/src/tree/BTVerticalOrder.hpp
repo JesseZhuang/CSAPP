@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include "struct/TreeNode.hpp"
+#include <ranges>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ public:
         int minC = 0, maxC = 0;
         q.emplace_back(root, 0);
         while (!q.empty()) {
-            auto [n,c] = q.front();
+            auto [n, c] = q.front();
             q.pop_front();
             colV[c].push_back(n->val);
             minC = min(minC, c);
@@ -33,8 +34,9 @@ public:
         }
         for (int i = minC; i <= maxC; ++i) res.push_back(colV[i]);
         return res;
-        // auto vals = views::values(colV);
-        // return vector<vector<int> >{vals.begin(), vals.end()};
+//        auto vals = views::values(colV); // LintCode does not support cpp 20
+//        return vector<vector<int> >{vals.begin(), vals.end()};
     }
 };
+
 #endif //BTVERTICALORDER_HPP

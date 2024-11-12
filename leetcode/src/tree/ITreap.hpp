@@ -79,6 +79,7 @@ void reverse(pitem t, int l, int r) {
     merge(t, t, t3);
 }
 
+// in order traversal, no null, so cannot distinguish 0:2,1:[1,3] and 0:1,1:[2],2:[3]
 ostream &operator<<(ostream &os, pitem n) {
     if (!n) return os;
     os << n->l;

@@ -7,6 +7,7 @@
 using namespace std;
 
 // https://cp-algorithms.com/data_structures/treap.html
+// max heap and balanced BST
 
 struct item {
     int key, prior, cnt;
@@ -20,6 +21,10 @@ struct item {
 };
 
 typedef item *pitem;
+
+int priority(pitem t) {
+    return t ? t->prior : 0;
+}
 
 int cnt(pitem t) {
     return t ? t->cnt : 0;

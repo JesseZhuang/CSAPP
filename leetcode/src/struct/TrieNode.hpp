@@ -24,7 +24,7 @@ public:
     void insert(const string &word) {
         auto *node = this;
         for (auto &ch: word) {
-            if (!node->next[ch]) node->next[ch] = make_unique<TrieNode>();
+            if (!node->next.count(ch)) node->next[ch] = make_unique<TrieNode>();
             node = node->next[ch].get();
             node->cnt++;
         }
@@ -34,7 +34,7 @@ public:
     TrieNode *get(const string &word) {
         TrieNode *node = this;
         for (auto &ch: word) {
-            if (!node->next[ch]) return nullptr;
+            if (!node->next.count(ch)) return nullptr;
             node = node->next[ch].get();
         }
         return node;
@@ -48,6 +48,17 @@ public:
     bool startsWith(const string &word) {
         auto *node = get(word);
         return node != nullptr;
+    }
+
+    int lcpLen(const string &w) {
+        int res = 0;
+        auto cur = this;
+        for (auto &c: w) {
+            if (!cur->next.count(c)) break;
+            cur = cur->next[c].get();
+            res++;
+        }
+        return res;
     }
 };
 
