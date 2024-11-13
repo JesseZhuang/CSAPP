@@ -26,13 +26,13 @@ public:
         while (!q.empty()) {
             auto [n, c] = q.front();
             q.pop_front();
-            colV[c].push_back(n->val);
+            colV[c].emplace_back(n->val);
             minC = min(minC, c);
             maxC = max(maxC, c);
             if (n->left) q.emplace_back(n->left, c - 1);
             if (n->right) q.emplace_back(n->right, c + 1);
         }
-        for (int i = minC; i <= maxC; ++i) res.push_back(colV[i]);
+        for (int i = minC; i <= maxC; ++i) res.emplace_back(colV[i]);
         return res;
 //        auto vals = views::values(colV); // LintCode does not support cpp 20
 //        return vector<vector<int> >{vals.begin(), vals.end()};

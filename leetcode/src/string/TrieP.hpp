@@ -2,6 +2,7 @@
 #define TRIEP_HPP
 
 #include <string>
+#include <utility>
 
 using namespace std;
 
@@ -32,16 +33,16 @@ public:
 
     void insert(string word) {
         // pass by value, avoid copy
-        getNode(move(word), true)->end = true;
+        getNode(std::move(word), true)->end = true;
     }
 
     bool search(string word) {
-        Node *n = getNode(word, false);
+        Node *n = getNode(std::move(word), false);
         return n != nullptr && n->end;
     }
 
     bool startsWith(string prefix) {
-        return getNode(prefix, false) != nullptr;
+        return getNode(std::move(prefix), false) != nullptr;
     }
 
 private:
