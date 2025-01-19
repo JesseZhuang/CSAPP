@@ -9,7 +9,7 @@
 
 using namespace std;
 
-// LintCode 651, LeetCode 314
+// LintCode 651, LeetCode 314, 20 ms, 2.82 mb
 class Solution {
 public:
     /**

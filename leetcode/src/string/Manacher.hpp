@@ -1,5 +1,6 @@
 #ifndef MANACHER_HPP
 #define MANACHER_HPP
+
 #include <vector>
 
 using namespace std;
@@ -11,6 +12,7 @@ public:
     string s;
     int mppl;
 
+    // https://en.cppreference.com/w/cpp/language/explicit
     explicit Manacher(string s) : s(s) {
         // constructor will make a copy of s
         size_t n = s.length(), m = 2 * n + 3;

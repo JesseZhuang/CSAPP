@@ -23,7 +23,6 @@ public:
     void dfs(int p, int v, int rank) {
         if (ranks[v] != 0) return;
         ranks[v] = rank;
-        int r = 0;
         for (int w: adj[v]) {
             if (w == p) continue;
             dfs(v, w, rank + 1);
