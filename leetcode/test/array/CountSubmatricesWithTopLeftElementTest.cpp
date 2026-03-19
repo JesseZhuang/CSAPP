@@ -18,6 +18,6 @@ TEST(array, count_submatrices_with_top_left_element) {
     vector<int> expected = {3, 0, 4, 4, 3};
 
     for (int i = 0; i < cases.size(); ++i) {
-        ASSERT_EQ(expected[i], tbt.countSubmatrices(cases[i], ks[i]));
+        ASSERT_EQ(expected[i], tbt.resSubmatrices(cases[i], ks[i]));
     }
 }

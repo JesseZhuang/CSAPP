@@ -1,6 +1,7 @@
 #ifndef LEETCODE_MEETINGROOMSIII_HPP
 #define LEETCODE_MEETINGROOMSIII_HPP
 
+#include <algorithm>
 #include <vector>
 #include <queue>
 #include <numeric>
