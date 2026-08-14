@@ -22,6 +22,8 @@ public:
             long long minPotion = (success + spell - 1) / spell;  // ceiling division
 
             // lower_bound finds first element >= minPotion
+            // If minPotion exceeds max possible potion value (10^5), all fail
+            if (minPotion > 100000) { result.push_back(0); continue; }
             int idx = lower_bound(potions.begin(), potions.end(), (int)minPotion) - potions.begin();
             result.push_back(n - idx);
         }
