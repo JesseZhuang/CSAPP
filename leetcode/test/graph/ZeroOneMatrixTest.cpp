@@ -17,6 +17,20 @@ TEST(graph, zero_one_matrix_example2) {
     ASSERT_EQ(sol.updateMatrix(mat), expected);
 }
 
+TEST(graph, zero_one_matrix_single_row_zero_at_right) {
+    Solution542 sol;
+    vector<vector<int>> mat = {{1, 1, 0}};
+    vector<vector<int>> expected = {{2, 1, 0}};
+    ASSERT_EQ(sol.updateMatrix(mat), expected);
+}
+
+TEST(graph, zero_one_matrix_single_column_zero_at_bottom) {
+    Solution542 sol;
+    vector<vector<int>> mat = {{1}, {1}, {0}};
+    vector<vector<int>> expected = {{2}, {1}, {0}};
+    ASSERT_EQ(sol.updateMatrix(mat), expected);
+}
+
 TEST(graph, zero_one_matrix_bfs_example1) {
     Solution542BFS sol;
     vector<vector<int>> mat = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
@@ -42,5 +56,19 @@ TEST(graph, zero_one_matrix_bfs_single_zero) {
     Solution542BFS sol;
     vector<vector<int>> mat = {{1, 1, 1}, {1, 0, 1}, {1, 1, 1}};
     vector<vector<int>> expected = {{2, 1, 2}, {1, 0, 1}, {2, 1, 2}};
+    ASSERT_EQ(sol.updateMatrix(mat), expected);
+}
+
+TEST(graph, zero_one_matrix_bfs_single_row_zero_at_right) {
+    Solution542BFS sol;
+    vector<vector<int>> mat = {{1, 1, 0}};
+    vector<vector<int>> expected = {{2, 1, 0}};
+    ASSERT_EQ(sol.updateMatrix(mat), expected);
+}
+
+TEST(graph, zero_one_matrix_bfs_single_column_zero_at_bottom) {
+    Solution542BFS sol;
+    vector<vector<int>> mat = {{1}, {1}, {0}};
+    vector<vector<int>> expected = {{2}, {1}, {0}};
     ASSERT_EQ(sol.updateMatrix(mat), expected);
 }
